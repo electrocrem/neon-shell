@@ -1,7 +1,8 @@
 # neon-shell — cyberpunk Hyprland, all the themes
 
 **neon-shell** is [gits](https://github.com/electrocrem/gits) with every theme: *Ghost in the Shell* (the base, below) and
-*Serial Experiments Lain* (lavender, cream and wire red), more to come. Switch with `Super+I` → *Colour theme* or `gits-theme set lain`;
+*Serial Experiments Lain* (lavender, cream and wire red) and *Neuromancer* (cyberspace green, dead-channel silver, Chiba magenta; an ICE
+on the lock screen). Switch with `Super+I` → *Appearance* (theme, your accent, mascot, wallpaper) or `gits-theme set neuromancer`;
 `gits-theme set gits` brings GitS back exactly. Fixes to the desktop itself go to gits first and are merged here from it
 (`git remote add upstream https://github.com/electrocrem/gits.git && git pull upstream main`).
 

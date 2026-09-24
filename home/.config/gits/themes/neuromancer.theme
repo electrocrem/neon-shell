@@ -1,0 +1,36 @@
+# Neuromancer: cyberspace green and the silver of a dead channel, the magenta neon of Chiba. Same roles as gits.theme.
+name = Neuromancer
+description = The sky above the port was the color of television, tuned to a dead channel. Jack in.
+wallpaper = neuromancer_chiba.jpg
+
+# the lock screen: cyberspace at night, a turning ICE instead of the Tachikoma, Chiba instead of Section 9
+lock_bg = neuromancer_lock_bg.jpg
+mascot = ice
+swap = 公安9課  //  SECTION 9 -> 千葉シティ  //  CHIBA CITY
+swap = echo "LINK: $( -> echo "JACKED IN: $(
+
+bg            = #07090A
+bg_deep       = #030405
+surface       = #10161A
+surface_deep  = #0B1013
+fg            = #D6DEE2
+fg_gtk        = #DCE4E8
+fg_bright     = #EEF3F5
+muted         = #93A4AC
+dim           = #2C3A40
+dim_text      = #5B6A71
+
+accent        = #3BFF8E
+accent_bright = #9DFFC6
+accent_2      = #FF2E97
+
+red           = #FF3B3B
+red_light     = #FF7A7A
+green         = #3BFF8E
+green_light   = #9DFFC6
+yellow        = #F5E663
+yellow_light  = #FAF0A0
+blue          = #3AA0FF
+blue_light    = #7CC2FF
+violet        = #B266FF
+violet_light  = #D3A6FF

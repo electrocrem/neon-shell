@@ -178,6 +178,8 @@ done
 s=$(asset lain.txt) && place "$s" "$HOME/.config/nvim/lua/gits/lain.txt"
 s=$(asset lain_wires.jpg) && place "$s" "$WALLS/lain_wires.jpg"                          # the Lain theme (tools/make-lain-art.py)
 s=$(asset lain_lock_bg.jpg) && place "$s" "$HOME/.config/hypr/hyprlock/lain_lock_bg.jpg"
+s=$(asset neuromancer_chiba.jpg) && place "$s" "$WALLS/neuromancer_chiba.jpg"           # the Neuromancer theme (tools/make-neuromancer-art.py)
+s=$(asset neuromancer_lock_bg.jpg) && place "$s" "$HOME/.config/hypr/hyprlock/neuromancer_lock_bg.jpg"
 s=$(asset lain-dance.gif) && place "$s" "$HOME/.config/gits-widgets/lain.gif"   # the radio popup and the lock screen dance from it
 
 # ------------------------------------------------------------------ hooks into your own config files
@@ -263,6 +265,7 @@ run python3 "$HOME/.local/share/gits-icons/build.py" || warn "icon theme build f
 ((DRY)) || python3 "$REPO/tools/post.py" steam
 run python3 "$HOME/.local/share/gits-sounds/build.py" || warn "UI sounds not built (needs python-numpy)"
 run python3 "$HOME/.local/share/gits-lock/tachikoma.py" >/dev/null || warn "lock screen Tachikoma not built (needs python-numpy): the lock screen has no mascot"
+run python3 "$HOME/.local/share/gits-lock/ice.py" >/dev/null || warn "the ICE mascot (Neuromancer) not built (needs python-numpy)"
 run python3 "$HOME/.local/share/gits-lock/build.py" >/dev/null || warn "dancing Lain frames not built (needs python-pillow and python-numpy): GITS_LOCK_MASCOT=lain stays blank"
 ((TELEGRAM)) && run python3 "$HOME/.local/share/gits-telegram/build.py"
 

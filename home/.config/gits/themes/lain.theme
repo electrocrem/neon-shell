@@ -5,8 +5,8 @@ description = Lavender light in a dark room, a cream page, the red of the wires.
 wallpaper = lain_wires.jpg
 
 # the lock screen: the street under the wires at night, the dancing Lain instead of the Tachikoma, the Wired instead of Section 9
-swap = hyprlock/gits_lock_bg.png -> hyprlock/lain_lock_bg.jpg
-swap = ] gits-lock-mascot -> ] env GITS_LOCK_MASCOT=lain gits-lock-mascot
+lock_bg = lain_lock_bg.jpg
+mascot = lain
 swap = 公安9課  //  SECTION 9 -> レイン  //  PRESENT DAY, PRESENT TIME
 swap = echo "LINK: $( -> echo "WIRED: $(
 

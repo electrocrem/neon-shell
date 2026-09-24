@@ -49,7 +49,7 @@ MANIFEST = [
     (".config/qt5ct/qt5ct.conf", None), (".config/qt5ct/colors/GitS.conf", None),
     (".config/qt6ct/qt6ct.conf", None), (".config/qt6ct/colors/GitS.conf", None),
     (".config/satty/config.toml", None),
-    (".config/gits/themes", ["gits.theme", "lain.theme", "files"]),
+    (".config/gits/themes", ["gits.theme", "lain.theme", "neuromancer.theme", "files"]),
     (".config/zsh/gits", ["banner.zsh", "colors.zsh", "tmux.zsh", "fastfetch.jsonc", "fastfetch-image.jsonc"]),
     (".config/starship/starship.toml", None),
     (".config/nvim/colors/gits.lua", None),
@@ -69,7 +69,7 @@ MANIFEST = [
     (".local/share/gits-sddm/ghost-in-the-shell", ["Main.qml", "metadata.desktop", "theme.conf"]),
     (".local/share/gits-boot", ["build.py", "install.sh", "fix-grub-savedefault.sh", "plymouth.script.in"]),
     (".local/share/gits-sounds/build.py", None),
-    (".local/share/gits-lock", ["build.py", "tachikoma.py"]),
+    (".local/share/gits-lock", ["build.py", "tachikoma.py", "ice.py"]),
     (".local/share/gits-snap/setup.sh", None),
     (".local/bin", ["gits-*"]),
     (".vscode-oss/extensions/gits.ghost-in-the-shell-1.0.0", None),
@@ -82,6 +82,8 @@ ASSETS = [
     (".local/share/gits/wallpapers/gits_teal_wires.jpg", "gits_teal_wires.jpg"),
     (".local/share/gits/wallpapers/lain_wires.jpg", "lain_wires.jpg"),                            # the Lain theme (tools/make-lain-art.py)
     (".config/hypr/hyprlock/lain_lock_bg.jpg", "lain_lock_bg.jpg"),
+    (".local/share/gits/wallpapers/neuromancer_chiba.jpg", "neuromancer_chiba.jpg"),               # the Neuromancer theme (tools/make-neuromancer-art.py)
+    (".config/hypr/hyprlock/neuromancer_lock_bg.jpg", "neuromancer_lock_bg.jpg"),
     (".config/gits-widgets/lain.gif", "lain-dance.gif"),                                          # the dancing Lain of the radio popup and the lock screen (lain-dance, MIT)
     (".config/zsh/gits/art.png", "art.png"),                                                     # terminal banner (kitty graphics)
     (".config/zsh/gits/cyborg.txt", "cyborg.txt"), (".config/zsh/gits/lain.txt", "lain.txt"),

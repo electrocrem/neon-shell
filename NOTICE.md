@@ -20,6 +20,12 @@ installer then generates original placeholder wallpapers and a generic ASCII ban
 * GTK widgets come from the `adw-gtk-theme` package (only the colour overrides in `home/.config/gtk-*/gtk.css` are ours).
 * Fonts (JetBrains Mono Nerd Font, Noto CJK) are not bundled.
 
+## Neuromancer theme art
+
+`assets/neuromancer_chiba.jpg` and `assets/neuromancer_lock_bg.jpg` are drawn from code by `tools/make-neuromancer-art.py`, and the ICE
+lock-screen mascot by `home/.local/share/gits-lock/ice.py` (MIT, like the rest of the code). The quoted first line of *Neuromancer* is
+William Gibson's.
+
 ## Lain theme art
 
 `assets/lain_wires.jpg` and `assets/lain_lock_bg.jpg` are drawn from code by `tools/make-lain-art.py` (MIT, like the rest of the code): poles,

@@ -456,10 +456,10 @@ def check(root=None):
         later = {ln[2:].split()[0] for ln in f if ln.startswith("#-") and ln[2:].split()}
     probe = Probe(load_theme(DEFAULT, themes, user=False))
     bad = 0
-    roles = set(load_theme(DEFAULT, themes)["roles"])
+    roles = set(load_theme(DEFAULT, themes, user=False)["roles"])
     for f in sorted(os.listdir(themes)):
         if f.endswith(".theme"):
-            missing = roles - set(load_theme(f[:-6], themes)["roles"])
+            missing = roles - set(load_theme(f[:-6], themes, user=False)["roles"])
             if missing:
                 print(f"{f} lacks the roles: {', '.join(sorted(missing))}")
                 bad += 1
