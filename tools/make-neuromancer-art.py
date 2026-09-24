@@ -19,8 +19,9 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(REPO, "assets")
 
-BG, FG = (7, 9, 10), (214, 222, 226)
-GREEN, GREEN_B, MAGENTA, AMBER, BLUE = (59, 255, 142), (157, 255, 198), (255, 46, 151), (245, 230, 99), (58, 160, 255)
+# the Apple TV series' colours: electric blue and indigo, petrol teal, a pink neon; GREEN now names the grid colour (electric blue)
+BG, FG = (8, 9, 14), (216, 226, 240)
+GREEN, GREEN_B, MAGENTA, AMBER, BLUE = (61, 123, 255), (159, 198, 255), (255, 61, 139), (255, 179, 71), (19, 165, 181)
 
 
 def font(names, size):
@@ -55,7 +56,10 @@ def dead_channel(w, h, top, rng):
     band = 30 * np.exp(-((np.arange(top)[:, None] - top * 0.62) / (top * 0.05)) ** 2)
     v = np.clip(base + noise + band, 0, 255)
     v[::3] *= 0.78
-    a = np.dstack([v * 0.93, v * 0.98, v]).astype("uint8")
+    # the series' wash: petrol teal near the horizon, indigo higher up
+    t = np.linspace(0, 1, top)[:, None]
+    r, g, b = v * (0.42 + 0.10 * (1 - t)), v * (0.55 + 0.30 * t), v * (0.95 + 0.05 * t)
+    a = np.dstack([np.broadcast_to(r, v.shape), np.broadcast_to(g, v.shape), np.broadcast_to(b, v.shape)]).clip(0, 255).astype("uint8")
     return Image.fromarray(a)
 
 
