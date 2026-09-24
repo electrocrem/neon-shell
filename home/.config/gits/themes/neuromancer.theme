@@ -1,5 +1,5 @@
-# Neuromancer, in the colours of the Apple TV series: electric blue and indigo, petrol teal in the shadows, a pink neon key light,
-# cool silver text on a blue-black. Same roles as gits.theme.
+# Neuromancer, the Apple TV series' colours in pastel: periwinkle blue, soft pink, sea-glass teal and lavender on a dusty indigo
+# night, cool silver text. Same roles as gits.theme.
 name = Neuromancer
 description = The sky above the port was the color of television, tuned to a dead channel. Jack in.
 wallpaper = neuromancer_chiba.jpg
@@ -11,28 +11,28 @@ mascot = ice
 swap = 公安9課  //  SECTION 9 -> 千葉シティ  //  CHIBA CITY
 swap = echo "LINK: $( -> echo "JACKED IN: $(
 
-bg            = #08090E
-bg_deep       = #040509
-surface       = #10142A
-surface_deep  = #0B0E1C
-fg            = #D8E2F0
-fg_gtk        = #DEE7F3
-fg_bright     = #EEF3FA
-muted         = #9CB0CC
-dim           = #26324A
-dim_text      = #5A6780
+bg            = #0E1018
+bg_deep       = #090A10
+surface       = #1A1E30
+surface_deep  = #141726
+fg            = #E6ECF7
+fg_gtk        = #EAEFF8
+fg_bright     = #F5F7FC
+muted         = #AEB9D2
+dim           = #343C57
+dim_text      = #6C7593
 
-accent        = #3D7BFF
-accent_bright = #9FC6FF
-accent_2      = #FF3D8B
+accent        = #8FA8FF
+accent_bright = #C9D5FF
+accent_2      = #FFA8CF
 
-red           = #FF3355
-red_light     = #FF7896
-green         = #13A5B5
-green_light   = #7FE0E8
-yellow        = #FFB347
-yellow_light  = #FFD699
-blue          = #3D5BFF
-blue_light    = #8FA2FF
-violet        = #7A4DFF
-violet_light  = #B39BFF
+red           = #FF8A9E
+red_light     = #FFB8C4
+green         = #86D9D0
+green_light   = #BDEDE7
+yellow        = #FFD49A
+yellow_light  = #FFE7C4
+blue          = #8FA2F0
+blue_light    = #C1CCFA
+violet        = #B9A3F5
+violet_light  = #DCD0FB
