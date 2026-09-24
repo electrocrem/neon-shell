@@ -2,6 +2,7 @@
 name = Neuromancer
 description = The sky above the port was the color of television, tuned to a dead channel. Jack in.
 wallpaper = neuromancer_chiba.jpg
+art = neuromancer
 
 # the lock screen: cyberspace at night, a turning ICE instead of the Tachikoma, Chiba instead of Section 9
 lock_bg = neuromancer_lock_bg.jpg

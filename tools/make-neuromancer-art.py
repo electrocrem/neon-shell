@@ -4,6 +4,7 @@
   tools/make-neuromancer-art.py [OUT_DIR]      default: assets/
     neuromancer_chiba.jpg      2560x1440 wallpaper: a dead-channel sky over the Chiba port skyline and its neon, cyberspace below
     neuromancer_lock_bg.jpg    1920x1200 lock-screen background: cyberspace at night, ICE towers, WINTERMUTE
+    neuromancer_banner.png     520x650 the terminal banner / fastfetch picture of the Neuromancer art set: Chiba's neon over the grid
 
 Needs Pillow and numpy. Colours are the roles of home/.config/gits/themes/neuromancer.theme.
 """
@@ -164,6 +165,8 @@ def lock_background(w=1920, h=1200):
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    chiba().save(os.path.join(OUT, "neuromancer_chiba.jpg"), quality=90)
+    wall = chiba()
+    wall.save(os.path.join(OUT, "neuromancer_chiba.jpg"), quality=90)
+    wall.crop((1260, 320, 2060, 1320)).resize((520, 650), Image.LANCZOS).save(os.path.join(OUT, "neuromancer_banner.png"), optimize=True)
     lock_background().save(os.path.join(OUT, "neuromancer_lock_bg.jpg"), quality=90)
-    print("wrote neuromancer_chiba.jpg, neuromancer_lock_bg.jpg to", OUT)
+    print("wrote neuromancer_chiba.jpg, neuromancer_lock_bg.jpg, neuromancer_banner.png to", OUT)

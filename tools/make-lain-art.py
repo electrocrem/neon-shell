@@ -5,6 +5,7 @@
     lain_wires.jpg      2560x1440 wallpaper: telephone poles and their wires against a violet dusk, the red polka-dot shadows of the
                         show on the street, a lavender hologram of the dancing Lain (a frame of assets/lain-dance.gif) under the wires
     lain_lock_bg.jpg    1920x1200 lock-screen background: the same street at night, darker, with the Copland OS mark
+    lain_banner.png     520x650 the terminal banner / fastfetch picture of the Lain art set: the hologram under the wires
 
 Needs Pillow and numpy. Colours are the roles of home/.config/gits/themes/lain.theme.
 """
@@ -201,6 +202,8 @@ def lock_background(w=1920, h=1200):
 
 if __name__ == "__main__":
     os.makedirs(OUT, exist_ok=True)
-    wires_wallpaper().save(os.path.join(OUT, "lain_wires.jpg"), quality=90)
+    wall = wires_wallpaper()
+    wall.save(os.path.join(OUT, "lain_wires.jpg"), quality=90)
+    wall.crop((1400, 470, 2040, 1270)).resize((520, 650), Image.LANCZOS).save(os.path.join(OUT, "lain_banner.png"), optimize=True)
     lock_background().save(os.path.join(OUT, "lain_lock_bg.jpg"), quality=90)
-    print("wrote lain_wires.jpg, lain_lock_bg.jpg to", OUT)
+    print("wrote lain_wires.jpg, lain_lock_bg.jpg, lain_banner.png to", OUT)

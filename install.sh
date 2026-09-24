@@ -184,6 +184,10 @@ s=$(asset neuromancer_lock_bg.jpg) && place "$s" "$HOME/.config/hypr/hyprlock/ne
 ART=$HOME/.local/share/gits/art
 s=$(asset art.png) && place "$s" "$ART/gits/banner.png"
 s=$(asset cyborg.txt) && place "$s" "$ART/gits/banner.txt" && place "$s" "$ART/gits/dashboard.txt"
+s=$(asset lain_banner.png) && place "$s" "$ART/lain/banner.png"                    # the Lain set: the hologram under the wires, Lain dancing
+s=$(asset lain.txt) && place "$s" "$ART/lain/banner.txt" && place "$s" "$ART/lain/dashboard.txt"
+s=$(asset lain-dance.gif) && place "$s" "$ART/lain/dancer.gif"
+s=$(asset neuromancer_banner.png) && place "$s" "$ART/neuromancer/banner.png"      # the Neuromancer set: Chiba's neon, a turning ICE
 s=$(asset lain-dance.gif) && place "$s" "$HOME/.config/gits-widgets/lain.gif"   # the radio popup and the lock screen dance from it
 
 # ------------------------------------------------------------------ hooks into your own config files
@@ -270,6 +274,8 @@ run python3 "$HOME/.local/share/gits-icons/build.py" || warn "icon theme build f
 run python3 "$HOME/.local/share/gits-sounds/build.py" || warn "UI sounds not built (needs python-numpy)"
 run python3 "$HOME/.local/share/gits-lock/tachikoma.py" >/dev/null || warn "lock screen Tachikoma not built (needs python-numpy): the lock screen has no mascot"
 run python3 "$HOME/.local/share/gits-lock/ice.py" >/dev/null || warn "the ICE mascot (Neuromancer) not built (needs python-numpy)"
+for f in banner.txt dashboard.txt; do run python3 "$HOME/.local/share/gits-lock/ice.py" --still "$HOME/.local/share/gits/art/neuromancer/$f" 38 19; done
+run python3 "$HOME/.local/share/gits-lock/ice.py" --sprite "$HOME/.local/share/gits/art/neuromancer" >/dev/null || warn "the radio popup's ICE not built (needs python-pillow)"
 run python3 "$HOME/.local/share/gits-lock/tachikoma.py" --sprite "$HOME/.local/share/gits/art/gits" >/dev/null || warn "the radio popup's Tachikoma not built (needs python-numpy and python-pillow)"
 [[ -e $HOME/.local/share/gits/art/current ]] || run ln -sfn gits "$HOME/.local/share/gits/art/current"   # gits-theme moves it with the theme
 run python3 "$HOME/.local/share/gits-lock/build.py" >/dev/null || warn "dancing Lain frames not built (needs python-pillow and python-numpy): GITS_LOCK_MASCOT=lain stays blank"

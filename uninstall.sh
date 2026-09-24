@@ -123,6 +123,7 @@ if ((!DRY)) && [[ -f $st ]] && grep -q '^theme=' "$st"; then sed -i '/^theme=/d'
 # art sets: the "current" link and the radio dancer frames built at install time
 [[ -L $HOME/.local/share/gits/art/current ]] && { echo "delete   the current art set link"; run rm -f "$HOME/.local/share/gits/art/current"; }
 compgen -G "$HOME/.local/share/gits/art/*/dancer-*.png" >/dev/null && { echo "delete   generated radio dancer frames"; run rm -f "$HOME"/.local/share/gits/art/*/dancer-*.png; }
+run rm -f "$HOME/.local/share/gits/art/neuromancer/banner.txt" "$HOME/.local/share/gits/art/neuromancer/dashboard.txt"   # ice.py --still
 
 # files that were created by the blocks' host (nothing to restore) and are now empty
 for f in "${BLOCKHOSTS[@]}" "$HOME/.config/kded6rc"; do

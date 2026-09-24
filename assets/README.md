@@ -7,6 +7,7 @@ Pictures used by the installer. Filenames matter:
 | `gits_cyborg.jpg`, `gits_teal_wires.jpg` | extra wallpapers / hyprlock + awww previews |
 | `art.png` | terminal banner picture (kitty graphics protocol) |
 | `lain_wires.jpg`, `lain_lock_bg.jpg` | the Lain theme's wallpaper and lock-screen background: drawn by `tools/make-lain-art.py` (original; the hologram is a frame of `lain-dance.gif`) |
+| `lain_banner.png`, `neuromancer_banner.png` | the terminal banner / fastfetch pictures of the Lain and Neuromancer art sets (cut from the wallpapers above) |
 | `neuromancer_chiba.jpg`, `neuromancer_lock_bg.jpg` | the Neuromancer theme's wallpaper and lock-screen background: drawn by `tools/make-neuromancer-art.py` (original) |
 | `cyborg.txt`, `lain.txt`, `shodan.txt` | ASCII banner art (fallback when `art.png` cannot be shown), Neovim dashboard uses `lain.txt` |
 

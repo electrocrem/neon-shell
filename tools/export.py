@@ -51,6 +51,8 @@ MANIFEST = [
     (".config/satty/config.toml", None),
     (".config/gits/themes", ["gits.theme", "lain.theme", "neuromancer.theme", "files"]),
     (".local/share/gits/art/gits", ["banner.conf", "title"]),
+    (".local/share/gits/art/lain", ["banner.conf", "title"]),
+    (".local/share/gits/art/neuromancer", ["banner.conf", "title"]),
     (".config/zsh/gits", ["banner.zsh", "colors.zsh", "tmux.zsh", "fastfetch.jsonc", "fastfetch-image.jsonc"]),
     (".config/starship/starship.toml", None),
     (".config/nvim/colors/gits.lua", None),

@@ -3,6 +3,7 @@
 name = Serial Experiments Lain
 description = Lavender light in a dark room, a cream page, the red of the wires. Present day, present time.
 wallpaper = lain_wires.jpg
+art = lain
 
 # the lock screen: the street under the wires at night, the dancing Lain instead of the Tachikoma, the Wired instead of Section 9
 lock_bg = lain_lock_bg.jpg
