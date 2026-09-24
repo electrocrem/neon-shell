@@ -176,6 +176,8 @@ for f in art.png cyborg.txt lain.txt shodan.txt; do
     s=$(asset "$f") && place "$s" "$HOME/.config/zsh/gits/$f"
 done
 s=$(asset lain.txt) && place "$s" "$HOME/.config/nvim/lua/gits/lain.txt"
+s=$(asset lain_wires.jpg) && place "$s" "$WALLS/lain_wires.jpg"                          # the Lain theme (tools/make-lain-art.py)
+s=$(asset lain_lock_bg.jpg) && place "$s" "$HOME/.config/hypr/hyprlock/lain_lock_bg.jpg"
 s=$(asset lain-dance.gif) && place "$s" "$HOME/.config/gits-widgets/lain.gif"   # the radio popup and the lock screen dance from it
 
 # ------------------------------------------------------------------ hooks into your own config files

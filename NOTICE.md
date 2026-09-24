@@ -20,6 +20,12 @@ installer then generates original placeholder wallpapers and a generic ASCII ban
 * GTK widgets come from the `adw-gtk-theme` package (only the colour overrides in `home/.config/gtk-*/gtk.css` are ours).
 * Fonts (JetBrains Mono Nerd Font, Noto CJK) are not bundled.
 
+## Lain theme art
+
+`assets/lain_wires.jpg` and `assets/lain_lock_bg.jpg` are drawn from code by `tools/make-lain-art.py` (MIT, like the rest of the code): poles,
+wires, dotted shadows and captions are original. The hologram in the wallpaper is a frame of `lain-dance.gif` (below), so the character
+rights noted there apply to it.
+
 ## Dancing Lain (radio popup)
 
 `assets/lain-dance.gif` (installed as `~/.config/gits-widgets/lain.gif`) is the dance animation from [pryanostnik/lain-dance](https://github.com/pryanostnik/lain-dance) (MIT). The character is

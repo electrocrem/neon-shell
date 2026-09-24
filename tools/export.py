@@ -80,6 +80,8 @@ ASSETS = [
     (".local/share/gits/wallpapers/gits_eye.png", "gits_eye.png"),          # lock screen, SDDM, GRUB, Plymouth
     (".local/share/gits/wallpapers/gits_cyborg.jpg", "gits_cyborg.jpg"),
     (".local/share/gits/wallpapers/gits_teal_wires.jpg", "gits_teal_wires.jpg"),
+    (".local/share/gits/wallpapers/lain_wires.jpg", "lain_wires.jpg"),                            # the Lain theme (tools/make-lain-art.py)
+    (".config/hypr/hyprlock/lain_lock_bg.jpg", "lain_lock_bg.jpg"),
     (".config/gits-widgets/lain.gif", "lain-dance.gif"),                                          # the dancing Lain of the radio popup and the lock screen (lain-dance, MIT)
     (".config/zsh/gits/art.png", "art.png"),                                                     # terminal banner (kitty graphics)
     (".config/zsh/gits/cyborg.txt", "cyborg.txt"), (".config/zsh/gits/lain.txt", "lain.txt"),
