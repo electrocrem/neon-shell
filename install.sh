@@ -188,6 +188,7 @@ s=$(asset lain_banner.png) && place "$s" "$ART/lain/banner.png"                 
 s=$(asset lain.txt) && place "$s" "$ART/lain/banner.txt" && place "$s" "$ART/lain/dashboard.txt"
 s=$(asset lain-dance.gif) && place "$s" "$ART/lain/dancer.gif"
 s=$(asset neuromancer_banner.png) && place "$s" "$ART/neuromancer/banner.png"      # the Neuromancer set: Chiba's neon, a turning ICE
+s=$(asset fuchikoma-dance.gif) && place "$s" "$ART/gits/dancer.gif"                # the radio popup's dancer in the GitS theme
 s=$(asset lain-dance.gif) && place "$s" "$HOME/.config/gits-widgets/lain.gif"   # the radio popup and the lock screen dance from it
 
 # ------------------------------------------------------------------ hooks into your own config files

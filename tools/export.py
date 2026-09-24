@@ -88,6 +88,7 @@ ASSETS = [
     (".local/share/gits/wallpapers/neuromancer_chiba.jpg", "neuromancer_chiba.jpg"),               # the Neuromancer theme (tools/make-neuromancer-art.py)
     (".config/hypr/hyprlock/neuromancer_lock_bg.jpg", "neuromancer_lock_bg.jpg"),
     (".config/gits-widgets/lain.gif", "lain-dance.gif"),                                          # the dancing Lain of the radio popup and the lock screen (lain-dance, MIT)
+    (".local/share/gits/art/gits/dancer.gif", "fuchikoma-dance.gif"),                           # the radio dancer of the GitS art set
     (".config/zsh/gits/art.png", "art.png"),                                                     # terminal banner (kitty graphics)
     (".config/zsh/gits/cyborg.txt", "cyborg.txt"), (".config/zsh/gits/lain.txt", "lain.txt"),
     (".config/zsh/gits/shodan.txt", "shodan.txt"),
