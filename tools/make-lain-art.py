@@ -173,15 +173,15 @@ def wires_wallpaper(w=2560, h=1440):
     # Lain, a hologram standing under the wires
     lain = hologram_lain(int(h * 0.42))
     img.alpha_composite(lain, (int(w * 0.62), ground + 120 - lain.height))
-    # captions: "present day, present time" down the left edge, the title small in the corner
-    cj = font(CJK, 58)
+    # captions in the middle of the sky, where the desktop widgets (left and right columns) do not cover them:
+    # "present day, present time" down between the first poles, the title at the top centre
+    cj = font(CJK, 50)
     for i, ch in enumerate("プレゼント・デイ"):
-        text_glow(img, (110, 170 + i * 72), ch, cj, FG + (235,), LAV + (160,), blur=8)
+        text_glow(img, (int(w * 0.205), int(h * 0.14) + i * 62), ch, cj, FG + (235,), LAV + (160,), blur=8)
     for i, ch in enumerate("プレゼント・タイム"):
-        text_glow(img, (190, 250 + i * 72), ch, cj, LAV_B + (200,), PINK + (120,), blur=8)
-    mono = font(MONO, 26)
-    text_glow(img, (w - 80, h - 70), "PRESENT DAY, PRESENT TIME  //  LAYER:01 WEIRD", mono, FG + (220,), LAV + (140,), anchor="rs")
-    text_glow(img, (w - 80, 90), "serial experiments lain", font(MONO, 34), LAV_B + (230,), PINK + (150,), anchor="rs")
+        text_glow(img, (int(w * 0.228), int(h * 0.19) + i * 62), ch, cj, LAV_B + (200,), PINK + (120,), blur=8)
+    text_glow(img, (w / 2, 110), "serial experiments lain", font(MONO, 34), LAV_B + (230,), PINK + (150,), anchor="ms")
+    text_glow(img, (w / 2, h - 60), "PRESENT DAY, PRESENT TIME  //  LAYER:01 WEIRD", font(MONO, 24), FG + (220,), LAV + (140,), anchor="ms")
     return grain_and_scanlines(img.convert("RGB"), rnd, amount=7, lines=0.12)
 
 
