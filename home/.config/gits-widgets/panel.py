@@ -282,6 +282,7 @@ class Popup(Gtk.Window):
         LS.set_keyboard_mode(self, LS.KeyboardMode.EXCLUSIVE)
         if monitor is not None:
             LS.set_monitor(self, monitor)
+        self._monitor = monitor
         self.card = None
         key = Gtk.EventControllerKey()
         key.connect("key-pressed", lambda _c, kv, *_: (self.dismiss(), True)[1] if kv == Gdk.KEY_Escape else False)
@@ -298,7 +299,18 @@ class Popup(Gtk.Window):
         """Called by the subclasses with their card: place it in the corner of the fullscreen surface, inside a stack that plays the
         GitS "power-on" effect: the card opens from a thin line with two glitch flickers while a bright scan line sweeps down it."""
         self.card = card
-        card.set_size_request(self.CARD_W, -1)
+        # fit the screen: the card is never wider than the monitor, and when it is taller than the room below the bar it scrolls
+        # (a 1920x1200 panel at scale 1.5 is only 800 px tall: the appearance menu and the settings hub did not fit)
+        geo = self._screen()
+        top = self.TOP if not self.center or geo.height < 1000 else 110
+        card.set_size_request(min(self.CARD_W, geo.width - 16), -1)
+        clip = Gtk.ScrolledWindow()
+        clip.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        clip.set_propagate_natural_height(True)
+        clip.set_propagate_natural_width(True)
+        clip.set_max_content_height(max(200, geo.height - top - 12))
+        clip.set_child(card)
+        self.clip = clip
         scan = Gtk.DrawingArea()
         scan.set_can_target(False)
         scan.set_draw_func(self._draw_scan)
@@ -307,7 +319,7 @@ class Popup(Gtk.Window):
         self.rev = Gtk.Revealer()   # opens the card from the top, like a scan line uncovering it
         self.rev.set_transition_type(Gtk.RevealerTransitionType.SLIDE_UP)
         self.rev.set_transition_duration(self.OPEN_MS * slow)
-        self.rev.set_child(card)
+        self.rev.set_child(clip)
         stack = Gtk.Overlay()
         stack.add_css_class("reveal")
         if slow > 1:
@@ -319,7 +331,7 @@ class Popup(Gtk.Window):
         stack.set_margin_top(self.TOP)
         if self.center:
             stack.set_halign(Gtk.Align.CENTER)
-            stack.set_margin_top(110)
+            stack.set_margin_top(top)
         elif self.hcenter:
             stack.set_halign(Gtk.Align.CENTER)
         elif self.left is None:
@@ -333,6 +345,18 @@ class Popup(Gtk.Window):
         super().set_child(wrap)
         self.scan_t0 = None
         self.connect("map", self._on_map)
+
+    def _screen(self):
+        """The logical size (after scaling) of the monitor this popup opens on."""
+        mon = getattr(self, "_monitor", None)
+        if mon is None:
+            mons = Gdk.Display.get_default().get_monitors()
+            mon = mons.get_item(0) if mons.get_n_items() else None
+        if mon is None:
+            r = Gdk.Rectangle()
+            r.width, r.height = 1920, 1080
+            return r
+        return mon.get_geometry()
 
     # -- the reveal and the scan line at its leading edge
     OPEN_MS, FADE_S = 300, 0.18
@@ -407,7 +431,7 @@ class Popup(Gtk.Window):
     def _pressed(self, gesture, n, x, y):
         if self.card is None:
             return
-        ok, rect = self.card.compute_bounds(self)
+        ok, rect = self.clip.compute_bounds(self)   # the visible part: a scrolled card reaches below the screen
         if os.environ.get("GITS_PANEL_DEBUG"):
             open(os.environ["GITS_PANEL_DEBUG"], "a").write(f"pressed {x:.0f},{y:.0f} card={rect.get_x():.0f},{rect.get_y():.0f} {rect.get_width():.0f}x{rect.get_height():.0f}\n")
         inside = ok and rect.get_x() <= x <= rect.get_x() + rect.get_width() and rect.get_y() <= y <= rect.get_y() + rect.get_height()
@@ -1777,7 +1801,11 @@ class AppearancePopup(Popup):
         self.cards = {}
         for tid, t in self.themes.items():
             row.append(self._theme_card(tid, t))
-        root.append(row)
+        trow = Gtk.ScrolledWindow()   # more themes than fit side by side: the row scrolls sideways (the wheel scrolls it too)
+        trow.set_policy(Gtk.PolicyType.AUTOMATIC, Gtk.PolicyType.NEVER)
+        trow.set_propagate_natural_height(True)
+        trow.set_child(row)
+        root.append(trow)
         # accent
         root.append(label("ACCENT  ·  rings, borders, icons, the selection", "ap-sec"))
         arow = Gtk.Box(spacing=6)
@@ -2064,6 +2092,128 @@ class AppearancePopup(Popup):
     def _reset(self):
         self._run([["gits-theme", "option", self.sel, "--reset"], ["gits-theme", "set", self.sel]],
                   "FORGETTING YOUR OPTIONS FOR " + self.themes.get(self.sel, {}).get("name", self.sel).upper() + " …")
+
+
+class DesktopPopup(Popup):
+    """Desktop (gits-panel desktop, Super+I -> Desktop): which cards the desktop widgets show on the main monitor and which modules
+    the bar shows. APPLY writes ~/.config/gits/widgets.conf (read by gits-widgets/widgets.py) and the bar's choice (gits-bar), then
+    restarts the widgets and the bar. Cards that do not fit the screen's height move to the next column by themselves."""
+    CARD_W = 760
+    # the ids of gits-widgets/widgets.py (App.start's plan) and their defaults there; keep the two lists in step
+    WIDGETS = (("clock", "clock"), ("calendar", "calendar"), ("spectrum", "audio spectrum"), ("log", "system log"),
+               ("media", "player"), ("weather", "weather"), ("net", "network"), ("notes", "memo + focus timer"),
+               ("battery", "battery"), ("rings", "cpu / ram / ssd rings"), ("graph", "cpu / ram graph"), ("todo", "to-do"),
+               ("updates", "updates + uptime"), ("bluetooth", "bluetooth devices"), ("gpu", "gpu"), ("disks", "disks"),
+               ("top", "busiest processes"), ("server", "home server *"), ("services", "server services *"),
+               ("torrents", "torrents *"), ("watching", "now watching *"))
+    WIDGETS_OFF = {"gpu", "disks", "top"}
+    CONF = os.path.join(os.environ.get("XDG_CONFIG_HOME", os.path.join(HOME, ".config")), "gits", "widgets.conf")
+
+    def __init__(self, monitor):
+        super().__init__(monitor, center=True)
+        self.w_on = self._read_widgets()
+        try:
+            self.bar = json.loads(sh(["gits-bar", "list"], real=True) or "[]")
+        except ValueError:
+            self.bar = []
+        self.b_on = {m["id"]: m["on"] for m in self.bar}
+        root = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        root.add_css_class("panel")
+        head = Gtk.Box(spacing=6)
+        head.append(label("\U000F0379  DESKTOP", "m-head"))
+        sp = Gtk.Box()
+        sp.set_hexpand(True)
+        head.append(sp)
+        head.append(label("// 画面", "m-tag"))
+        root.append(head)
+        root.append(label("WIDGETS  ·  on the main monitor; * only with a home server (GITS_SERVER)", "ap-sec"))
+        self.w_btns = {}
+        root.append(self._grid([(i, n) for i, n in self.WIDGETS], self.w_btns, self.w_on, self._flip_w))
+        root.append(label("BAR  ·  the power button always stays", "ap-sec"))
+        self.b_btns = {}
+        root.append(self._grid([(m["id"], m["name"]) for m in self.bar if not m.get("fixed")], self.b_btns, self.b_on, self._flip_b))
+        foot = Gtk.Box(spacing=8)
+        self.status = label("", "th-status")
+        self.status.set_hexpand(True)
+        foot.append(self.status)
+        reset = Gtk.Button(label="DEFAULTS")
+        reset.add_css_class("ap-toggle")
+        reset.connect("clicked", lambda _b: self._defaults())
+        foot.append(reset)
+        ok = Gtk.Button(label="APPLY")
+        ok.add_css_class("ap-apply")
+        ok.connect("clicked", lambda _b: self._apply())
+        foot.append(ok)
+        root.append(foot)
+        self.set_child(root)
+
+    def _grid(self, items, btns, state, flip):
+        fb = Gtk.FlowBox()
+        fb.set_selection_mode(Gtk.SelectionMode.NONE)
+        fb.set_max_children_per_line(4)
+        fb.set_min_children_per_line(2)
+        fb.set_row_spacing(6)
+        fb.set_column_spacing(6)
+        fb.set_homogeneous(True)
+        for i, name in items:
+            b = Gtk.Button(label=name.upper())
+            b.add_css_class("ap-toggle")
+            b.get_child().set_xalign(0)
+            b.connect("clicked", lambda _b, i=i: flip(i))
+            btns[i] = b
+            fb.append(b)
+        self._paint(btns, state)
+        return fb
+
+    @staticmethod
+    def _paint(btns, state):
+        for i, b in btns.items():
+            on = state.get(i, True)
+            (b.add_css_class if on else b.remove_css_class)("sel")
+            b.set_label(("■ " if on else "□ ") + b.get_label().lstrip("■□ "))
+
+    def _flip_w(self, i):
+        self.w_on[i] = not self.w_on.get(i, True)
+        self._paint(self.w_btns, self.w_on)
+
+    def _flip_b(self, i):
+        self.b_on[i] = not self.b_on.get(i, True)
+        self._paint(self.b_btns, self.b_on)
+
+    def _read_widgets(self):
+        on = {i: i not in self.WIDGETS_OFF for i, _ in self.WIDGETS}
+        try:
+            with open(self.CONF) as f:
+                for line in f:
+                    k, _, v = line.partition("=")
+                    k, v = k.strip(), v.split("#")[0].strip().lower()
+                    if k in on and v in ("on", "off"):
+                        on[k] = v == "on"
+        except OSError:
+            pass
+        return on
+
+    def _defaults(self):
+        self.w_on = {i: i not in self.WIDGETS_OFF for i, _ in self.WIDGETS}
+        self.b_on = {i: True for i in self.b_on}
+        self._paint(self.w_btns, self.w_on)
+        self._paint(self.b_btns, self.b_on)
+
+    def _apply(self):
+        if DEMO:
+            return
+        os.makedirs(os.path.dirname(self.CONF), exist_ok=True)
+        with open(self.CONF, "w") as f:
+            f.write("# desktop widgets on the main monitor (gits-panel desktop): ID = on|off\n")
+            f.writelines(f"{i} = {'on' if self.w_on[i] else 'off'}\n" for i, _ in self.WIDGETS)
+        self.status.set_text("restarting the widgets and the bar…")
+        widgets = os.path.join(HOME, ".config", "gits-widgets", "run.sh")
+        hide = " ".join(i for i, v in self.b_on.items() if not v)
+        # through Hyprland: the widgets need the session's environment (GITS_SERVER...), and the bar restart must not take this
+        # popup down with it if it was opened from the bar
+        cmd = f"{widgets} restart; gits-bar set {hide}"
+        fire(["hyprctl", "dispatch", f"hl.dsp.exec_cmd('bash -c \"{cmd}\"')"])
+        GLib.timeout_add(400, lambda: (self.dismiss(), False)[1])
 
 
 class MixerPopup(Popup):
@@ -2866,6 +3016,8 @@ def main():
         win = SettingsPopup(mon)
     elif mode in ("appearance", "themes"):
         win = AppearancePopup(mon)
+    elif mode == "desktop":
+        win = DesktopPopup(mon)
     elif mode == "mixer":
         cx = int(sh(["hyprctl", "cursorpos"]).split(",")[0] or 640) if not DEMO else 700
         width = mon.get_geometry().width if mon else 1280
