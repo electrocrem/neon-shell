@@ -1,0 +1,38 @@
+# Akira: Neo-Tokyo at night, Kaneda's red on concrete black, the white of the blast, a cold sodium-blue street light.
+# Same roles as gits.theme (read that file for what each one paints).
+name = Akira
+description = Neo-Tokyo is about to explode. Kaneda's red, the white of the blast.
+wallpaper = akira_neotokyo.jpg
+art = akira
+
+# the lock screen: the blast dome over the city at night, the capsule instead of the Tachikoma's place left empty
+lock_bg = akira_lock_bg.jpg
+mascot = off
+swap = 公安9課  //  SECTION 9 -> ネオ東京  //  NEO-TOKYO 2019
+swap = echo "LINK: $( -> echo "CAPSULE: $(
+
+bg            = #0B0A0D
+bg_deep       = #060508
+surface       = #1D1A21
+surface_deep  = #151318
+fg            = #F2EEE8
+fg_gtk        = #F5F1EB
+fg_bright     = #FFFFFF
+muted         = #C4BDB6
+dim           = #3F3A44
+dim_text      = #75707A
+
+accent        = #E5242B
+accent_bright = #FF5F55
+accent_2      = #3FA4F0
+
+red           = #FF6A1A
+red_light     = #FF9A5C
+green         = #4FD18B
+green_light   = #93E8B9
+yellow        = #F6C744
+yellow_light  = #FADD88
+blue          = #2F6BD8
+blue_light    = #6C9EF0
+violet        = #9F6BE0
+violet_light  = #C6A6F2

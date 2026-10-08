@@ -1,8 +1,10 @@
 # neon-shell — киберпанк Hyprland, все темы
 
 **neon-shell** — это [gits](https://github.com/electrocrem/gits) со всеми темами: *Ghost in the Shell* (база, описана ниже) и
-*Serial Experiments Lain* (лаванда, крем и красный проводов) и *Neuromancer* (зелень киберпространства, серебро мёртвого канала,
-магента Тибы; ICE на экране блокировки). Переключение: `Super+I` → *Appearance* (тема, свой акцент, маскот, обои) или
+*Serial Experiments Lain* (лаванда, крем и красный проводов), *Neuromancer* (зелень киберпространства, серебро мёртвого канала,
+магента Тибы; ICE на экране блокировки), *Snow Crash* (оранжевый Доставщика на чёрном, Чёрное Солнце), *Akira* (красный Канэды,
+белый взрыва), *Blade Runner 2049* (оранжевая пыль, бирюзовый дождь), *Evangelion* (фиолетовый Евы-01, кислотный зелёный, оранжевая
+тревога) и *Marathon* (кислотный лайм, горячий розовый и белая бумага, плоская печатная графика). Переключение: `Super+I` → *Appearance* (тема, свой акцент, маскот, обои) или
 `gits-theme set neuromancer`; `gits-theme set gits` возвращает GitS в точности. Исправления самого рабочего стола сначала делаются в gits
 и подтягиваются сюда (`git remote add upstream https://github.com/electrocrem/gits.git && git pull upstream main`).
 

@@ -1,0 +1,38 @@
+# Blade Runner 2049: the orange dust of Las Vegas, the teal of the city's rain and holograms, Joi's pink.
+# Same roles as gits.theme (read that file for what each one paints).
+name = Blade Runner 2049
+description = Orange dust over Las Vegas, teal rain in the city. Interlinked.
+wallpaper = bladerunner_vegas.jpg
+art = bladerunner
+
+# the lock screen: the dust and a pyramid, the baseline test instead of Section 9
+lock_bg = bladerunner_lock_bg.jpg
+mascot = off
+swap = 公安9課  //  SECTION 9 -> ウォレス社  //  BASELINE
+swap = echo "LINK: $( -> echo "BASELINE: $(
+
+bg            = #0F0A07
+bg_deep       = #080504
+surface       = #26170F
+surface_deep  = #1C110B
+fg            = #F5DEC0
+fg_gtk        = #F8E4CA
+fg_bright     = #FFF1DE
+muted         = #D2B08C
+dim           = #553620
+dim_text      = #8A6C52
+
+accent        = #FF8C3A
+accent_bright = #FFB874
+accent_2      = #2EC4C6
+
+red           = #EE4430
+red_light     = #FF7B66
+green         = #74CFA0
+green_light   = #AEE6C8
+yellow        = #F4C44E
+yellow_light  = #F9DD92
+blue          = #3D86C9
+blue_light    = #7DB2E6
+violet        = #E066B8
+violet_light  = #F2A3D6

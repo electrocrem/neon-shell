@@ -1,0 +1,38 @@
+# Snow Crash: the Street of the Metaverse at night, Deliverator orange and Kourier yellow on black, the Black Sun's ember, a hacker's
+# magenta. Same roles as gits.theme (read that file for what each one paints).
+name = Snow Crash
+description = The Deliverator belongs to an elite order. Orange on black, the Street at night.
+wallpaper = snowcrash_street.jpg
+art = snowcrash
+
+# the lock screen: the Black Sun over the Street, a turning ICE (a daemon) instead of the Tachikoma
+lock_bg = snowcrash_lock_bg.jpg
+mascot = ice
+swap = 公安9課  //  SECTION 9 -> メタバース  //  THE BLACK SUN
+swap = echo "LINK: $( -> echo "GARGOYLE: $(
+
+bg            = #0B0906
+bg_deep       = #060504
+surface       = #1E1610
+surface_deep  = #16100B
+fg            = #F2E4CC
+fg_gtk        = #F5E9D4
+fg_bright     = #FFF5E3
+muted         = #CDB89A
+dim           = #4A3622
+dim_text      = #7D6A55
+
+accent        = #FF8A1F
+accent_bright = #FFB866
+accent_2      = #FF3FA0
+
+red           = #F0442E
+red_light     = #FF7D66
+green         = #7FD46B
+green_light   = #B4EBA6
+yellow        = #FFD23F
+yellow_light  = #FFE58A
+blue          = #4D8CFF
+blue_light    = #8CB4FF
+violet        = #B66BFF
+violet_light  = #D3A8FF

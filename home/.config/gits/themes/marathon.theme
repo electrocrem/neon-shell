@@ -1,0 +1,38 @@
+# Marathon (Bungie): flat print-graphic colours of the runners' world, acid lime on near-black, hot pink, electric blue, paper white.
+# Same roles as gits.theme (read that file for what each one paints).
+name = Marathon
+description = Acid lime on black, hot pink and paper white. Tau Ceti IV, a runner's shell.
+wallpaper = marathon_tauceti.jpg
+art = marathon
+
+# the lock screen: the UESC Marathon's flat graphics, a turning ICE as the colony ship's security
+lock_bg = marathon_lock_bg.jpg
+mascot = ice
+swap = 公安9課  //  SECTION 9 -> タウ・セチ IV  //  TAU CETI IV
+swap = echo "LINK: $( -> echo "RUNNER: $(
+
+bg            = #0A0B09
+bg_deep       = #050604
+surface       = #1B1D18
+surface_deep  = #131511
+fg            = #EDEFE4
+fg_gtk        = #F1F3E9
+fg_bright     = #FBFCF5
+muted         = #BFC4B0
+dim           = #3B4033
+dim_text      = #747A69
+
+accent        = #C8FF1A
+accent_bright = #E0FF7A
+accent_2      = #FF3D8B
+
+red           = #FF4438
+red_light     = #FF7D73
+green         = #36E07E
+green_light   = #86EDB0
+yellow        = #FFD21F
+yellow_light  = #FFE57A
+blue          = #2F7BFF
+blue_light    = #79A9FF
+violet        = #A46CFF
+violet_light  = #C9A8FF

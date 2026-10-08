@@ -49,10 +49,16 @@ MANIFEST = [
     (".config/qt5ct/qt5ct.conf", None), (".config/qt5ct/colors/GitS.conf", None),
     (".config/qt6ct/qt6ct.conf", None), (".config/qt6ct/colors/GitS.conf", None),
     (".config/satty/config.toml", None),
-    (".config/gits/themes", ["gits.theme", "lain.theme", "neuromancer.theme", "files"]),
+    (".config/gits/themes", ["gits.theme", "lain.theme", "neuromancer.theme", "snowcrash.theme", "akira.theme",
+                             "bladerunner.theme", "evangelion.theme", "marathon.theme", "files"]),
     (".local/share/gits/art/gits", ["banner.conf", "title"]),
     (".local/share/gits/art/lain", ["banner.conf", "title"]),
     (".local/share/gits/art/neuromancer", ["banner.conf", "title"]),
+    (".local/share/gits/art/snowcrash", ["banner.conf", "title"]),
+    (".local/share/gits/art/akira", ["banner.conf", "title"]),
+    (".local/share/gits/art/bladerunner", ["banner.conf", "title"]),
+    (".local/share/gits/art/evangelion", ["banner.conf", "title"]),
+    (".local/share/gits/art/marathon", ["banner.conf", "title"]),
     (".config/zsh/gits", ["banner.zsh", "colors.zsh", "tmux.zsh", "fastfetch.jsonc", "fastfetch-image.jsonc"]),
     (".config/starship/starship.toml", None),
     (".config/nvim/colors/gits.lua", None),
@@ -87,6 +93,16 @@ ASSETS = [
     (".config/hypr/hyprlock/lain_lock_bg.jpg", "lain_lock_bg.jpg"),
     (".local/share/gits/wallpapers/neuromancer_chiba.jpg", "neuromancer_chiba.jpg"),               # the Neuromancer theme (tools/make-neuromancer-art.py)
     (".config/hypr/hyprlock/neuromancer_lock_bg.jpg", "neuromancer_lock_bg.jpg"),
+    (".local/share/gits/wallpapers/snowcrash_street.jpg", "snowcrash_street.jpg"),      # the snowcrash theme (tools/make-theme-art.py)
+    (".config/hypr/hyprlock/snowcrash_lock_bg.jpg", "snowcrash_lock_bg.jpg"),
+    (".local/share/gits/wallpapers/akira_neotokyo.jpg", "akira_neotokyo.jpg"),      # the akira theme (tools/make-theme-art.py)
+    (".config/hypr/hyprlock/akira_lock_bg.jpg", "akira_lock_bg.jpg"),
+    (".local/share/gits/wallpapers/bladerunner_vegas.jpg", "bladerunner_vegas.jpg"),      # the bladerunner theme (tools/make-theme-art.py)
+    (".config/hypr/hyprlock/bladerunner_lock_bg.jpg", "bladerunner_lock_bg.jpg"),
+    (".local/share/gits/wallpapers/evangelion_tokyo3.jpg", "evangelion_tokyo3.jpg"),      # the evangelion theme (tools/make-theme-art.py)
+    (".config/hypr/hyprlock/evangelion_lock_bg.jpg", "evangelion_lock_bg.jpg"),
+    (".local/share/gits/wallpapers/marathon_tauceti.jpg", "marathon_tauceti.jpg"),      # the marathon theme (tools/make-theme-art.py)
+    (".config/hypr/hyprlock/marathon_lock_bg.jpg", "marathon_lock_bg.jpg"),
     (".config/gits-widgets/lain.gif", "lain-dance.gif"),                                          # the dancing Lain of the radio popup and the lock screen (lain-dance, MIT)
     (".local/share/gits/art/gits/dancer.gif", "fuchikoma-dance.gif"),                           # the radio dancer of the GitS art set
     (".config/zsh/gits/art.png", "art.png"),                                                     # terminal banner (kitty graphics)

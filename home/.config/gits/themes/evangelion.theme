@@ -1,0 +1,38 @@
+# Neon Genesis Evangelion: Unit-01's purple and acid green, NERV's warning orange, the white of an AT field.
+# Same roles as gits.theme (read that file for what each one paints).
+name = Evangelion
+description = Unit-01 purple, acid green, the orange of an emergency. Get in the robot.
+wallpaper = evangelion_tokyo3.jpg
+art = evangelion
+
+# the lock screen: an AT field over Tokyo-3, a turning octahedron (Ramiel's shape) as the mascot
+lock_bg = evangelion_lock_bg.jpg
+mascot = ice
+swap = 公安9課  //  SECTION 9 -> 第3新東京市  //  TOKYO-3
+swap = echo "LINK: $( -> echo "SYNC RATIO: $(
+
+bg            = #0D0914
+bg_deep       = #07050C
+surface       = #1F1730
+surface_deep  = #171125
+fg            = #ECE6F5
+fg_gtk        = #F0EBF8
+fg_bright     = #FBF8FF
+muted         = #BEB2D4
+dim           = #3F3359
+dim_text      = #766B8C
+
+accent        = #9D5CF0
+accent_bright = #C49BFF
+accent_2      = #8BF23A
+
+red           = #FF4520
+red_light     = #FF7E5E
+green         = #3FD98C
+green_light   = #8AEDB9
+yellow        = #FF9D1A
+yellow_light  = #FFC266
+blue          = #4677E8
+blue_light    = #86A6F5
+violet        = #D65CD0
+violet_light  = #EBA0E6

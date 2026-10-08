@@ -9,6 +9,7 @@ Pictures used by the installer. Filenames matter:
 | `lain_wires.jpg`, `lain_lock_bg.jpg` | the Lain theme's wallpaper and lock-screen background: drawn by `tools/make-lain-art.py` (original; the hologram is a frame of `lain-dance.gif`) |
 | `lain_banner.png`, `neuromancer_banner.png` | the terminal banner / fastfetch pictures of the Lain and Neuromancer art sets (cut from the wallpapers above) |
 | `neuromancer_chiba.jpg`, `neuromancer_lock_bg.jpg` | the Neuromancer theme's wallpaper and lock-screen background: drawn by `tools/make-neuromancer-art.py` (original) |
+| `snowcrash_street.jpg`, `akira_neotokyo.jpg`, `bladerunner_vegas.jpg`, `evangelion_tokyo3.jpg`, `marathon_tauceti.jpg`, `NAME_lock_bg.jpg`, `NAME_banner.png`, `NAME.txt` | the Snow Crash, Akira, Blade Runner 2049, Evangelion and Marathon themes: wallpaper, lock-screen background, banner picture and braille banner, all drawn by `tools/make-theme-art.py` (original) |
 | `fuchikoma-dance.gif` | the dancer of the radio popup in the GitS theme (`~/.local/share/gits/art/gits/dancer.gif`; without it Lain dances) |
 | `cyborg.txt`, `lain.txt`, `shodan.txt` | ASCII banner art (fallback when `art.png` cannot be shown), Neovim dashboard uses `lain.txt` |
 
