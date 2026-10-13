@@ -72,6 +72,7 @@ MANIFEST = [
     (".config/tmux/tmux.conf", None),
     (".config/fastfetch/config.jsonc", None),
     (".config/yazi/theme.toml", None),
+    (".config/spotify-player", ["app.toml", "theme.toml"]),
     (".local/share/gits-cursor/build.py", None),
     (".local/share/gits-icons/build.py", None),
     (".local/share/gits-telegram/build.py", None),
