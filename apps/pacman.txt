@@ -1,0 +1,85 @@
+# My apps from the Arch / CachyOS repos, on top of packages.txt (the desktop itself). One per line, comments after #.
+# bootstrap.sh installs them with pacman --needed; a name the repos do not have is reported and skipped, never fatal.
+
+# base tools
+base-devel
+git
+paru                      # AUR helper (CachyOS repo)
+cachyos-zsh-config        # oh-my-zsh + the zsh plugins the GitS zsh config loads (/usr/share/oh-my-zsh)
+zsh-autosuggestions
+zsh-syntax-highlighting
+zsh-history-substring-search
+zsh-completions
+flatpak
+htop
+glances
+duf
+pv
+rsync
+unzip
+unrar
+wget
+man-db
+micro
+
+# login screen (the GitS SDDM theme: install.sh --system)
+sddm
+qt6-declarative
+
+# files and KDE apps (GitS colours them: post.py kde-apps)
+dolphin
+ark
+okular
+gwenview
+kate
+filelight
+spectacle
+partitionmanager
+kcalc
+haruna
+kdeconnect
+kio-admin
+ffmpegthumbs
+kdegraphics-thumbnailers
+meld
+
+# fonts
+ttf-jetbrains-mono
+ttf-meslo-nerd
+noto-fonts-emoji
+
+# development
+code                      # Code - OSS (the GitS theme is an extension in ~/.vscode-oss)
+neovide
+github-cli
+godot
+npm
+uv
+python-pipx
+luarocks
+docker
+
+# media and internet
+spotify-player            # terminal Spotify client (GitS theme in ~/.config/spotify-player)
+qbittorrent
+torbrowser-launcher
+syncthing
+zotero
+vesktop-bin               # Discord client the GitS theme targets (~/.config/vesktop/themes)
+
+# games
+steam
+mangohud
+lib32-mangohud
+goverlay
+gamemode
+lib32-gamemode
+
+# security keys
+yubikey-manager
+pam-u2f
+
+# system / network tools
+wireshark-qt
+virtualbox
+virtualbox-host-dkms

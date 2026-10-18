@@ -8,6 +8,17 @@
 `gits-theme set neuromancer`; `gits-theme set gits` возвращает GitS в точности. Исправления самого рабочего стола сначала делаются в gits
 и подтягиваются сюда (`git remote add upstream https://github.com/electrocrem/gits.git && git pull upstream main`).
 
+**Новый ПК одной командой.** Поставьте [CachyOS](https://cachyos.org) обычным установщиком (любой рабочий стол или без него), войдите и:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/electrocrem/neon-shell/main/bootstrap.sh | bash
+```
+
+`bootstrap.sh` ставит пакеты рабочего стола и мои программы (`apps/pacman.txt`, `apps/aur.txt`, `apps/flatpak.txt`; правьте под себя),
+добавляет нужное железу (ASUS: asusctl + ROG Control Center, ноутбуки на AMD: ryzenadj, гибридная NVIDIA: защита входа), делает SDDM
+экраном входа и zsh оболочкой и запускает `./install.sh --system`. Пароль спрашивает один раз, повторный запуск безопасен, в конце
+перечисляет пакеты, которые не встали (лог в `~/.local/share/gits-install/`), личные данные не трогает. `--dry-run` покажет план.
+
 ---
 
 # gits — «Призрак в доспехах» для Hyprland

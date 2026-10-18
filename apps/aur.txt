@@ -1,0 +1,8 @@
+# My apps from the AUR (built with paru). One per line, comments after #. A failed build is reported, the rest goes on.
+bibata-cursor-theme       # base of the GitS cursor (built at install time)
+spotify                   # the desktop client; spicetify paints it GitS
+spicetify-cli
+ttf-iosevka
+ttf-rajdhani
+yubico-authenticator
+python-gdtoolkit          # gdformat / gdlint for Godot

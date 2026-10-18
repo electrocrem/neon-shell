@@ -8,6 +8,17 @@ hot pink and paper white, flat print graphics). Switch with `Super+I` → *Appea
 `gits-theme set gits` brings GitS back exactly. Fixes to the desktop itself go to gits first and are merged here from it
 (`git remote add upstream https://github.com/electrocrem/gits.git && git pull upstream main`).
 
+**A new PC in one command.** Install [CachyOS](https://cachyos.org) with its normal installer (any desktop, or none), log in, then:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/electrocrem/neon-shell/main/bootstrap.sh | bash
+```
+
+`bootstrap.sh` installs the desktop's packages and my apps (`apps/pacman.txt`, `apps/aur.txt`, `apps/flatpak.txt`; edit them to taste),
+adds what the hardware needs (ASUS: asusctl + ROG Control Center, AMD laptops: ryzenadj, hybrid NVIDIA: the login guard), makes SDDM
+the login screen and zsh the shell, and runs `./install.sh --system`. It asks for the password once, can run again safely, lists any
+package that failed at the end (log in `~/.local/share/gits-install/`), and never copies personal data. `--dry-run` shows the plan.
+
 ---
 
 # gits — Ghost in the Shell for Hyprland

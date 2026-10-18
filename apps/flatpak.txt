@@ -1,0 +1,30 @@
+# My Flatpak apps (Flathub, installed system-wide). One app id per line, comments after #.
+app.zen_browser.zen                      # Zen
+ch.protonmail.protonmail-bridge          # Proton Mail Bridge
+com.bitwarden.desktop                    # Bitwarden
+com.discordapp.Discord                   # Discord
+com.github.jkotra.eovpn                  # eOVPN
+com.github.rafostar.Clapper              # Clapper
+com.github.tchx84.Flatseal               # Flatseal
+com.github.unrud.VideoDownloader         # Video Downloader
+com.logseq.Logseq                        # Logseq
+com.obsproject.Studio                    # OBS Studio
+io.github.flattool.Warehouse             # Warehouse
+io.github.mfat.sshpilot                  # SSH Pilot
+io.github.spacingbat3.webcord            # WebCord
+io.gitlab.adhami3310.Impression          # Impression
+io.gitlab.theevilskeleton.Upscaler       # Upscaler
+io.missioncenter.MissionCenter           # Mission Center
+md.obsidian.Obsidian                     # Obsidian
+me.proton.Mail                           # Proton Mail
+net.davidotek.pupgui2                    # ProtonUp-Qt
+org.blender.Blender                      # Blender
+org.gimp.GIMP                            # GNU Image Manipulation Program
+org.gnome.Boxes                          # Boxes
+org.gnome.eog                            # Eye of GNOME
+org.inkscape.Inkscape                    # Inkscape
+org.kde.krita                            # Krita
+org.mozilla.thunderbird                  # Thunderbird
+org.telegram.desktop                     # Telegram
+org.tigervnc.vncviewer                   # TigerVNC Viewer
+org.videolan.VLC                         # VLC
