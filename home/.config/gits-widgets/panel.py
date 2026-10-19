@@ -8,6 +8,8 @@ tools the bar modules use, so the bar and the panel never disagree for long.
 """
 import ast
 import hashlib
+import datetime
+import glob
 import json
 import math
 import operator
@@ -49,6 +51,11 @@ gi.require_version("GdkPixbuf", "2.0")
 gi.require_version("Gio", "2.0")
 from gi.repository import Gdk, GdkPixbuf, Gio, GLib, GLibUnix, GObject, Gtk, Pango  # noqa: E402
 from gi.repository import Gtk4LayerShell as LS  # noqa: E402
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    import lyrics as lyrics_mod   # synced lyrics under the player (lrclib.net)
+except ImportError:
+    lyrics_mod = None
 # gtk4-layer-shell only has to be preloaded into THIS process: every child (bash, git, nmcli, hyprctl...) inherited it and loaded GTK's
 # libraries for nothing, which made each spawned command several times slower
 os.environ.pop("LD_PRELOAD", None)
@@ -819,6 +826,10 @@ class PlayerPage(ArtMixin, Gtk.Box):
         times.append(self.t_pos)
         times.append(self.t_len)
         self.append(times)
+        self.lyric = label("", "m-lyric", 0.5)   # the line being sung (lyrics.py, lrclib.net); GITS_LYRICS=0: off
+        self.lyric.set_ellipsize(Pango.EllipsizeMode.END)
+        self.append(self.lyric)
+        self.lyrics = lyrics_mod.Lyrics() if lyrics_mod else None
 
         ctl = Gtk.Box(spacing=6, homogeneous=True)
         def btn(text, cb, css="ctl"):
@@ -898,9 +909,10 @@ class PlayerPage(ArtMixin, Gtk.Box):
             data = ["Paused", "", "Wired ambient mix (10 hours)", "", str(36000 * 10**6), str(725 * 10**6), "firefox", "Off", "None", "1.00"]
         else:
             fmt = "\t".join(["{{status}}", "{{artist}}", "{{title}}", "{{mpris:artUrl}}", "{{mpris:length}}", "{{position}}",
-                            "{{playerName}}"])
+                            "{{playerName}}", "{{album}}"])
             out = self._pcout("metadata", "--format", fmt)
             parts = out.split("\t")
+            self.album = parts.pop() if len(parts) == 8 else ""
             data = parts + [self._pcout("shuffle"), self._pcout("loop"), self._pcout("volume")] if len(parts) == 7 else None
         GLib.idle_add(self._show, data)
 
@@ -931,6 +943,7 @@ class PlayerPage(ArtMixin, Gtk.Box):
             self.seek.set_value(ps)
         self.t_pos.set_text(fmt_time(ps))
         self.t_len.set_text(fmt_time(self.length))
+        self.lyric.set_text(self.lyrics.line(artist, title, getattr(self, "album", ""), self.length, ps) if self.lyrics and not DEMO else "")
         self.seek.set_sensitive(self.length > 0)
         try:
             self.vol.set_value(float(vol) * 100)
@@ -2359,6 +2372,291 @@ class DesktopPopup(Popup):
         GLib.timeout_add(400, lambda: (self.dismiss(), False)[1])
 
 
+class BriefPopup(Popup):
+    """The daily brief (gits-panel brief; after the login greeting once a day, Super+I -> Daily brief): weather, backups and
+    home-server services (Uptime Kuma, GITS_KUMA), pending updates, battery and disk, and yesterday's time report. Each line
+    fills in when its answer is there; Esc / click outside closes."""
+    CARD_W = 560
+
+    def __init__(self, monitor):
+        super().__init__(monitor, center=True)
+        root = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        root.add_css_class("panel")
+        h = datetime.datetime.now().hour
+        part = "MORNING" if 5 <= h < 12 else "AFTERNOON" if h < 18 else "EVENING" if h < 23 else "NIGHT"
+        try:
+            import pwd
+            who = (pwd.getpwuid(os.getuid()).pw_gecos.split(",")[0] or os.environ.get("USER", "")).split()[0]
+        except (KeyError, IndexError):
+            who = os.environ.get("USER", "")
+        head = Gtk.Box(spacing=6)
+        head.append(label(f"󰖨  GOOD {part}, {who.upper()}", "m-head"))
+        sp = Gtk.Box()
+        sp.set_hexpand(True)
+        head.append(sp)
+        head.append(label("// 報告", "m-tag"))
+        root.append(head)
+        root.append(label(datetime.date.today().strftime("%A  %d %B %Y").upper(), "act-total"))
+        self.grid = Gtk.Grid(column_spacing=12, row_spacing=7)
+        root.append(self.grid)
+        self.rows = {}
+        for i, (key, glyph, name) in enumerate((("weather", "󰖐", "WEATHER"), ("backups", "󰁯", "BACKUPS"), ("services", "󰒋", "SERVER"),
+                                                ("updates", "󰚰", "UPDATES"), ("system", "󰂄", "SYSTEM"), ("time", "󱎫", "YESTERDAY"))):
+            g = label(glyph, "l-glyph", 0.5)
+            g.set_size_request(24, -1)
+            self.grid.attach(g, 0, i, 1, 1)
+            self.grid.attach(label(name, "act-name"), 1, i, 1, 1)
+            v = label("…", "br-val")
+            v.set_hexpand(True)
+            v.set_wrap(True)
+            self.grid.attach(v, 2, i, 1, 1)
+            self.rows[key] = v
+        root.append(label("Esc: close · Super+I -> Daily brief to see it again", "m-tag"))
+        self.set_child(root)
+        for key, fn in (("weather", self._weather), ("backups", self._kuma), ("updates", self._updates), ("system", self._system),
+                        ("time", self._time)):
+            threading.Thread(target=self._fill, args=(key, fn), daemon=True).start()
+
+    def _fill(self, key, fn):
+        try:
+            out = fn()
+        except Exception:   # offline, a tool missing: say so instead of hanging on "…"
+            out = None
+        if isinstance(out, dict):
+            for k, v in out.items():
+                GLib.idle_add(self._set, k, v)
+        else:
+            GLib.idle_add(self._set, key, out)
+
+    def _set(self, key, text):
+        self.rows[key].set_text(text or "—")
+        return False
+
+    @staticmethod
+    def _weather():
+        if DEMO:
+            return "+14°C  partly cloudy · Yerevan · wind 3 m/s"
+        loc = os.environ.get("GITS_WEATHER_LOCATION", "")
+        if loc.lower() == "off":
+            return "off (GITS_WEATHER_LOCATION=off)"
+        req = urllib.request.Request("https://wttr.in/" + urllib.parse.quote(loc) + "?format=%t|%C|%l|%w&m", headers={"User-Agent": "curl"})
+        t, c, l, w = (urllib.request.urlopen(req, timeout=8).read().decode().strip().split("|") + ["", "", "", ""])[:4]
+        return f"{t}  {c.lower()} · {l.split(',')[0]} · wind {w}"
+
+    @staticmethod
+    def _kuma():
+        if DEMO:
+            return {"backups": "laptop 3h ago ✓ · pi 6h ago ✓", "services": "6/6 up"}
+        url = os.environ.get("GITS_KUMA", "")
+        m = re.match(r"(https?://[^/]+)/status/([^/?#]+)", url)
+        if not m:
+            return {"backups": "no source (GITS_KUMA in local.lua)", "services": "no source (GITS_KUMA)"}
+        base, slug = m.groups()
+        get = lambda p: json.load(urllib.request.urlopen(f"{base}/api/status-page/{p}", timeout=8))
+        page, beats = get(slug), get(f"heartbeat/{slug}").get("heartbeatList", {})
+        now, bk, up, all_ = time.time(), [], 0, 0
+        for g in page.get("publicGroupList", []):
+            for mon in g.get("monitorList", []):
+                hb = beats.get(str(mon["id"])) or []
+                ok = bool(hb) and hb[-1].get("status") == 1
+                all_ += 1
+                up += ok
+                if re.search(r"backup|бэкап|бекап", g.get("name", ""), re.I):
+                    good = [b for b in hb if b.get("status") == 1]
+                    age = ""
+                    if good:
+                        ts = datetime.datetime.strptime(good[-1]["time"][:19], "%Y-%m-%d %H:%M:%S").replace(tzinfo=datetime.timezone.utc)
+                        s = now - ts.timestamp()
+                        age = f"{int(s // 3600)}h ago" if s >= 3600 else f"{int(s // 60)} min ago"
+                    bk.append(f"{mon['name'].lower().replace(' backup', '')} {age} {'✓' if ok else '✗ OVERDUE'}".strip())
+        return {"backups": " · ".join(bk) or "no backup monitors", "services": f"{up}/{all_} up" + ("" if up == all_ else "  ✗ check Uptime Kuma")}
+
+    @staticmethod
+    def _updates():
+        if DEMO:
+            return "12 (repo 11 · AUR 1)"
+        out = subprocess.run(["gits-update", "--check"], capture_output=True, text=True, timeout=90).stdout.split()
+        n = [int(x) for x in out if x.isdigit()]
+        return (f"{n[0] + n[1]} pending (repo {n[0]} · AUR {n[1]})  → Super+I -> Update" if n[0] + n[1] else "up to date") if len(n) >= 2 else " ".join(out)
+
+    @staticmethod
+    def _system():
+        parts = []
+        bat = sh(["gits-battery", "health"], timeout=3).strip()
+        if bat:
+            parts.append(f"battery {sh(['gits-battery', 'percent'], timeout=3).strip()}% · health {bat.split(' ')[0]}")
+        du = shutil.disk_usage(HOME)
+        parts.append(f"disk {du.free / 2**30:.0f} GB free")
+        return " · ".join(parts)
+
+    @staticmethod
+    def _time():
+        days = json.loads(sh(["gits-activity", "json", "2"], timeout=5) or "{}").get("days", {})
+        y = days.get((datetime.date.today() - datetime.timedelta(days=1)).isoformat(), {})
+        if not y:
+            return "nothing counted"
+        tot, (top, sec) = sum(y.values()), max(y.items(), key=lambda kv: kv[1])
+        return f"{fmt_dur(tot)} at the screen · most: {top} ({fmt_dur(sec)})"
+
+
+class ActivityPopup(Popup):
+    """Time report (gits-panel activity, Super+I -> Time report): which applications had the focus today / over 7 days, from
+    gits-activity (local, application names only). Tab or the two buttons switch the range; Esc / click outside closes."""
+    CARD_W = 520
+    TOP = 9
+
+    def __init__(self, monitor):
+        super().__init__(monitor, center=True)
+        try:
+            self.days = json.loads(sh(["gits-activity", "json", "7"], timeout=5, real=True) or "{}").get("days", {})
+        except ValueError:
+            self.days = {}
+        if DEMO:
+            self.days = {(datetime.date.today() - datetime.timedelta(days=i)).isoformat(): d for i, d in enumerate(
+                [{"kitty": 7300, "godot": 5400, "app.zen_browser.zen": 3900, "org.telegram.desktop": 1500, "steam_app_4078430": 4200},
+                 {"kitty": 9000, "app.zen_browser.zen": 5000, "godot": 2000}, {"steam_app_4078430": 8000, "kitty": 3000}, {}, {"kitty": 4000},
+                 {"godot": 6000, "kitty": 5000}, {"app.zen_browser.zen": 3000}])}
+        self.names = self._app_names()
+        self.range = 1
+        root = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        root.add_css_class("panel")
+        head = Gtk.Box(spacing=6)
+        head.append(label("󱎫  TIME // 時間", "m-head"))
+        sp = Gtk.Box()
+        sp.set_hexpand(True)
+        head.append(sp)
+        self.b_day, self.b_week = Gtk.Button(label="TODAY"), Gtk.Button(label="7 DAYS")
+        for b, n in ((self.b_day, 1), (self.b_week, 7)):
+            b.add_css_class("ap-toggle")
+            b.connect("clicked", lambda _b, n=n: self._show(n))
+            head.append(b)
+        root.append(head)
+        self.total = label("", "act-total")
+        root.append(self.total)
+        self.week = Gtk.DrawingArea()
+        self.week.set_content_height(64)
+        self.week.set_draw_func(self._draw_week)
+        root.append(self.week)
+        self.list = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        root.append(self.list)
+        root.append(label("local only: application names, no titles · ~/.local/share/gits/activity", "m-tag"))
+        keys = Gtk.EventControllerKey()
+        keys.connect("key-pressed", lambda _c, kv, *_: (self._show(8 - self.range), True)[1] if kv == Gdk.KEY_Tab else False)
+        self.add_controller(keys)
+        self.set_child(root)
+        self._show(1)
+
+    @staticmethod
+    def _app_names():
+        """window class -> (name, GIcon) from the installed .desktop files (StartupWMClass, file id, Flatpak id)."""
+        out = {}
+        for a in Gio.AppInfo.get_all():
+            try:
+                keys = {(a.get_startup_wm_class() or "").lower(), (a.get_id() or "").removesuffix(".desktop").lower()}
+            except AttributeError:
+                continue
+            for k in keys - {""}:
+                out.setdefault(k, (a.get_name(), a.get_icon()))
+        return out
+
+    def _name(self, cls):
+        hit = self.names.get(cls.lower()) or self.names.get(cls.lower().split(".")[-1])
+        if hit:
+            return hit
+        m = re.fullmatch(r"steam_app_(\d+)", cls)
+        if m:   # the game's name from its Steam app manifest
+            for lib in glob.glob(os.path.join(HOME, ".local/share/Steam/steamapps")) + glob.glob(os.path.join(HOME, ".var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps")):
+                try:
+                    nm = re.search(r'"name"\s+"([^"]+)"', open(os.path.join(lib, f"appmanifest_{m.group(1)}.acf")).read())
+                    if nm:
+                        return (nm.group(1), None)
+                except OSError:
+                    pass
+            return (f"Steam game {m.group(1)}", None)
+        return (cls, None)
+
+    def _sum(self, n):
+        keys = sorted(self.days)[-n:]
+        tot = {}
+        for d in keys:
+            for k, v in self.days.get(d, {}).items():
+                tot[k] = tot.get(k, 0) + v
+        return tot
+
+    def _show(self, n):
+        self.range = n
+        (self.b_day.add_css_class if n == 1 else self.b_day.remove_css_class)("sel")
+        (self.b_week.add_css_class if n == 7 else self.b_week.remove_css_class)("sel")
+        self.week.set_visible(n == 7)
+        tot = self._sum(n)
+        all_s = sum(tot.values())
+        self.total.set_text(f"{'TODAY' if n == 1 else 'LAST 7 DAYS'}  {fmt_dur(all_s)}" + (f"  ·  {fmt_dur(all_s / 7)} / day" if n == 7 else ""))
+        while (c := self.list.get_first_child()) is not None:
+            self.list.remove(c)
+        top = sorted(tot.items(), key=lambda kv: -kv[1])[:self.TOP]
+        if not top:
+            self.list.append(label("nothing counted yet: the tracker starts with the session (gits-activity.service)", "row-name"))
+        peak = top[0][1] if top else 1
+        for cls, sec in top:
+            name, icon = self._name(cls)
+            row = Gtk.Box(spacing=8)
+            if icon is not None:
+                img = Gtk.Image.new_from_gicon(icon)
+                img.set_pixel_size(20)
+                img.add_css_class("l-icon")
+                row.append(img)
+            else:
+                g = label("󰣆", "l-glyph", 0.5)
+                g.set_size_request(20, -1)
+                row.append(g)
+            col = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+            col.set_hexpand(True)
+            line = Gtk.Box()
+            nm = label(name.upper(), "act-name")
+            nm.set_hexpand(True)
+            nm.set_ellipsize(Pango.EllipsizeMode.END)
+            line.append(nm)
+            line.append(label(fmt_dur(sec), "act-time", 1.0))
+            col.append(line)
+            bar = Gtk.DrawingArea()
+            bar.set_content_height(5)
+            bar.set_draw_func(lambda _a, cr, w, h, f=sec / peak: self._bar(cr, w, h, f))
+            col.append(bar)
+            row.append(col)
+            self.list.append(row)
+
+    @staticmethod
+    def _bar(cr, w, h, f):
+        cr.set_source_rgba(0.18, 0.83, 0.84, 0.18)
+        cr.rectangle(0, 0, w, h)
+        cr.fill()
+        cr.set_source_rgba(0.18, 0.83, 0.84, 1.0)
+        cr.rectangle(0, 0, max(2, w * f), h)
+        cr.fill()
+
+    def _draw_week(self, _a, cr, w, h):
+        keys = sorted(self.days)[-7:]
+        vals = [sum(self.days.get(d, {}).values()) for d in keys]
+        peak = max(vals + [1])
+        bw = w / max(len(keys), 1)
+        for i, (d, v) in enumerate(zip(keys, vals)):
+            bh = (h - 14) * v / peak
+            cr.set_source_rgba(0.18, 0.83, 0.84, 1.0 if d == keys[-1] else 0.55)
+            cr.rectangle(i * bw + 6, h - 14 - bh, bw - 12, max(bh, 1))
+            cr.fill()
+            cr.set_source_rgba(0.35, 0.41, 0.47, 1)
+            cr.select_font_face("JetBrainsMono Nerd Font", 0, 1)
+            cr.set_font_size(9)
+            t = datetime.date.fromisoformat(d).strftime("%a").upper()
+            cr.move_to(i * bw + bw / 2 - cr.text_extents(t).x_advance / 2, h - 2)
+            cr.show_text(t)
+
+
+def fmt_dur(s):
+    s = int(s)
+    return f"{s // 3600}h{s % 3600 // 60:02d}" if s >= 3600 else f"{s // 60} min"
+
+
 class MixerPopup(Popup):
     """Sound mixer: master volume + mute of the default output, a button per output device, and one slider per application that
     is playing (streams of one app are grouped). Refreshes every 1.5 s while open (apps come and go)."""
@@ -3366,6 +3664,10 @@ def main():
         win = NotePopup(mon)
     elif mode == "settings":
         win = SettingsPopup(mon)
+    elif mode == "activity":
+        win = ActivityPopup(mon)
+    elif mode == "brief":
+        win = BriefPopup(mon)
     elif mode in ("appearance", "themes"):
         win = AppearancePopup(mon)
     elif mode == "desktop":
