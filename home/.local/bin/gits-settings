@@ -17,6 +17,7 @@ CONNECT	󰂯  Bluetooth	blueman-manager	bluetoothctl show | grep -q 'Powered: ye
 CONNECT	󰕾  Sound mixer (per application)	gits-panel mixer	wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{ printf "%d%%%s\n", $2 * 100 + 0.5, ($3 ? " muted" : "") }'
 CONNECT	󰓃  Sound devices (pavucontrol)	pavucontrol	wpctl inspect @DEFAULT_AUDIO_SINK@ | sed -n 's/.*node.description = "\(.*\)"/\1/p' | head -1
 CONNECT	󰝚  UI sounds: pack, volume (Super+Shift+U = on / off)	gits-sound menu	gits-sound status
+CONNECT	󰕓  Drives: USB sticks, SD cards (open, eject, automount)	gits-drives menu	gits-drives status
 CONNECT	󰄜  Send to phone (clipboard, screenshot, file, ring; Super+Ctrl+M)	gits-phone menu	gits-phone status
 CONNECT	󰍹  Displays	nwg-displays	hyprctl monitors -j | jq -r 'length as $n | max_by(.width * .height) | "\(.width)x\(.height)@\(.refreshRate | floor)" + (if $n > 1 then " +\($n - 1)" else "" end)'
 CONNECT	󰍽  Touchpad on / off	gits-touchpad toggle	gits-touchpad status
@@ -40,6 +41,7 @@ TOOLS	󰉍  Sort Downloads (by type; 30+ days old to Old/; undo)	gits-downloads 
 TOOLS	󰉋  Open a project (git / Godot)	gits-project
 TOOLS	󰎞  Quick note (Super+N)	gits-note add
 TOOLS	󰎞  Recent notes (copy one)	gits-note list
+TOOLS	󰀠  Reminders (or type "через 20м чай" in Super+A)	gits-remind menu	gits-remind status
 TOOLS	󱎫  Focus timer (pomodoro)	gits-focus menu	gits-focus status
 TOOLS	󰐹  Radio (DATAMOSH: on air, spectrum, tune in / out)	gits-panel radio	gits-radio status
 TOOLS	󰊄  Copy text from the screen (OCR, Super+Ctrl+S)	gits-shot ocr
@@ -49,6 +51,7 @@ TOOLS	󰑋  Screen recording: area (again = stop)	gits-rec toggle area	gits-rec 
 TOOLS	󰑋  Screen recording: whole screen	gits-rec toggle screen
 SYSTEM	󰌆  YubiKey at login and lock (switch off for a while)	gits-yubikey menu	gits-yubikey status
 SYSTEM	󰚰  Update the system (snapshot, then repairs)	gits-update	gits-update --check | awk '{ n = $2 + $4; print n ? n " updates (" $2 " + AUR " $4 ")" : "up to date" }'
+SYSTEM	󰜉  Reboot to finish updates (new kernel / driver)	gits-reboot-check menu	gits-reboot-check --short
 SYSTEM	󰃢  Free disk space (caches, trash, old packages and logs)	gits-panel clean	gits-clean free
 SYSTEM	󰋼  Health check (gits-doctor)	kitty --hold sh -c gits-doctor	gits-doctor -q | tail -1 | sed 's/\x1b\[[0-9;]*m//g' | awk -F', ' '{ split($1, o, " "); split($2, w, " "); split($3, f, " "); print f[1] ? f[1] " fail · " w[1] " warn" : w[1] ? w[1] " warn" : "all " o[1] " ok" }'
 ROWS
