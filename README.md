@@ -54,6 +54,7 @@ snapshot, updates the system, and then runs the repair.
 |---|---|
 | `Super+A` | launcher and command palette |
 | `Super+V` · `Super+Tab` · `Super+,` | clipboard history · window switcher · emoji picker |
+| ``Super+` `` | workspace overview: thumbnails, drag a window's icon to another workspace |
 | `Super+/` | every shortcut, searchable |
 | `Super+Shift+M` · `Super+R` | media popup with all players · the radio |
 | `Super+Shift+C` · `Super+Alt+V` · `Super+Shift+N` | control panel · sound mixer · notification centre |
@@ -176,6 +177,7 @@ need sudo, so the commands to undo them are printed at the end.
   Code; after 30 days to `Old/YYYY-MM`. Nothing is deleted, `gits-downloads undo` puts the last batch back. Off by default.
 * **Lyrics:** the player card and the media popup show the line being sung (lrclib.net; `GITS_LYRICS=0` turns it off).
 * **Phone:** `Super+Ctrl+M` sends the clipboard (a link opens on the phone), the newest screenshot or a file to your phone over KDE Connect, or rings it to find it. **Text from the screen:** `Super+Ctrl+S`, pick a region, the text (English and Russian) is in the clipboard.
+* **UI sounds:** short synthesised sounds for messages, lock / unlock, charger, screenshots, sending to the phone, the YubiKey waiting for a touch, game mode and low battery, in three packs (`terminal` blips, `soft` tones, `glass` bells) and three volumes: Super+I → UI sounds, `Super+Shift+U` mutes them.
 * **YubiKey (or any FIDO2 key):** register it once (`pamu2fcfg > ~/.config/Yubico/u2f_keys`), then `sudo ~/.local/share/gits-yubikey/setup.sh`.
   Login and lock screen then want the password and a touch (in that order: password, Enter, touch the blinking key); `sudo` and the
   polkit dialogs take a touch instead of the password. A hint shows wherever the key is waited for. Without the key for a while:
