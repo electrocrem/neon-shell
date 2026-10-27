@@ -6,9 +6,9 @@ description = Night City yellow, netrunner cyan, a moon someone still dreams of.
 wallpaper = edgerunners_moon.jpg
 art = edgerunners
 
-# the lock screen: two on a rooftop under the moon, a turning ICE as the city's net
+# the lock screen: two on a rooftop under the moon, and Capri, a girl of slime reaching up for it (gits-lock/capri.py)
 lock_bg = edgerunners_lock_bg.jpg
-mascot = ice
+mascot = capri
 swap = 公安9課  //  SECTION 9 -> ナイトシティ  //  NIGHT CITY
 swap = echo "LINK: $( -> echo "EDGE: $(
 

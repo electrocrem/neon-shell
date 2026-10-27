@@ -83,7 +83,7 @@ MANIFEST = [
     (".local/share/gits-sddm/ghost-in-the-shell", ["Main.qml", "metadata.desktop", "theme.conf"]),
     (".local/share/gits-boot", ["build.py", "install.sh", "fix-grub-savedefault.sh", "plymouth.script.in"]),
     (".local/share/gits-sounds/build.py", None),
-    (".local/share/gits-lock", ["build.py", "tachikoma.py", "ice.py"]),
+    (".local/share/gits-lock", ["build.py", "tachikoma.py", "ice.py", "capri.py"]),
     (".local/share/gits-snap/setup.sh", None),
     (".local/share/gits-power", ["setup.sh", "70-gits-battery.conf"]),
     (".local/share/gits-yubikey", ["setup.sh", "yubikey-mode", "yubikey-mode-check", "gits-u2f-hint"]),

@@ -32,7 +32,8 @@ William Gibson's.
 The wallpapers, lock-screen backgrounds, banners and braille banners of these themes (`assets/snowcrash_*`, `akira_*`, `bladerunner_*`,
 `evangelion_*`, `marathon_*`, `edgerunners_*` and `snowcrash.txt` ... `edgerunners.txt`) are drawn from code by `tools/make-theme-art.py` (MIT, like the rest of the
 code): only colours and general motifs are taken from the works. The quoted lines belong to their authors (Neal Stephenson; Katsuhiro Otomo;
-the Blade Runner films; Hideaki Anno / Gainax, after Robert Browning); *Marathon* is a trademark of Bungie and *Cyberpunk: Edgerunners* of CD PROJEKT, both used here only as names.
+the Blade Runner films; Hideaki Anno / Gainax, after Robert Browning); *Marathon* is a trademark of Bungie and *Cyberpunk: Edgerunners* of CD PROJEKT, both used here only as names. The Edgerunners lock-screen mascot and radio dancer
+(`home/.local/share/gits-lock/capri.py`) are modelled from code after Capri of *Cyberpunk: Edgerunners 2*: an interpretation, nothing traced.
 
 ## Lain theme art
 

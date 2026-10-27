@@ -300,6 +300,8 @@ run python3 "$HOME/.local/share/gits-icons/build.py" || warn "icon theme build f
 run python3 "$HOME/.local/share/gits-sounds/build.py" || warn "UI sounds not built (needs python-numpy)"
 run python3 "$HOME/.local/share/gits-lock/tachikoma.py" >/dev/null || warn "lock screen Tachikoma not built (needs python-numpy): the lock screen has no mascot"
 run python3 "$HOME/.local/share/gits-lock/ice.py" >/dev/null || warn "the ICE mascot (Neuromancer) not built (needs python-numpy)"
+run python3 "$HOME/.local/share/gits-lock/capri.py" >/dev/null || warn "the Capri mascot (Edgerunners) not built (needs python-numpy)"
+run python3 "$HOME/.local/share/gits-lock/capri.py" --sprite "$HOME/.local/share/gits/art/edgerunners" >/dev/null || warn "the Edgerunners radio dancer not built (needs python-pillow and python-numpy): Lain dances instead"
 for f in banner.txt dashboard.txt; do run python3 "$HOME/.local/share/gits-lock/ice.py" --still "$HOME/.local/share/gits/art/neuromancer/$f" 38 19 || { warn "the Neuromancer ASCII art not built (needs python-numpy)"; break; }; done
 [[ -e $HOME/.local/share/gits/art/current ]] || run ln -sfn gits "$HOME/.local/share/gits/art/current"   # gits-theme moves it with the theme
 run python3 "$HOME/.local/share/gits-lock/build.py" >/dev/null || warn "dancing Lain frames not built (needs python-pillow and python-numpy): GITS_LOCK_MASCOT=lain stays blank"
