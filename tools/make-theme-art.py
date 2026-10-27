@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Original artwork of the Snow Crash, Akira, Blade Runner 2049, Evangelion and Marathon themes (neon-shell), drawn from code:
+"""Original artwork of the Snow Crash, Akira, Blade Runner 2049, Evangelion, Marathon and Edgerunners themes (neon-shell), drawn from code:
 nothing here is copied from the books, films, shows or the game, only their colours and a few well-known motifs.
 
   tools/make-theme-art.py [OUT_DIR [THEME ...]]      default: assets/, every theme
@@ -416,6 +416,84 @@ def marathon(w, h, lock=False):
     return finish(quiet_left(img, 0.25) if lock else img, nrng, scan=0.97, grain=3)
 
 
+# ------------------------------------------------------------------------------------------------------------ Edgerunners
+ER = dict(yellow=hx("#FCEE0A"), yellow_b=hx("#FFF56B"), cyan=hx("#00F0FF"), pink=hx("#FF2A6D"), violet=hx("#B05CFF"),
+          moon=(236, 240, 255), fg=hx("#F0EEF8"), dawn=hx("#FFB627"))
+
+
+def edgerunners(w, h, lock=False):
+    """Night City under a huge moon, magenta haze, a thin line of dawn on the horizon, two small figures on a rooftop looking up:
+    whoever dreamt of the moon is still dreaming. Trigger-style flat yellow slabs and halftone in the corner."""
+    rng, nrng = random.Random(2077), np.random.default_rng(2077)
+    hor = int(h * 0.70)
+    img = gradient(w, h, [(0, (6, 4, 18)), (0.40, (28, 10, 46)), (0.62, (92, 20, 78)), (0.69, (150, 60, 70)),
+                          (0.70, (255, 182, 80)), (0.705, (40, 14, 40)), (1, (6, 4, 12))])
+    # the moon: big, pale, a cyan halo, a few soft craters
+    mx, my, mr = w * (0.70 if lock else 0.66), h * 0.30, h * (0.15 if lock else 0.17)
+    img.alpha_composite(radial(w, h, mx, my, mr * 3.2, ER["cyan"], 2.2, 70))
+    img.alpha_composite(radial(w, h, mx, my, mr * 1.8, ER["moon"], 2.6, 90))
+    d = ImageDraw.Draw(img)
+    d.ellipse((mx - mr, my - mr, mx + mr, my + mr), fill=ER["moon"] + (255,))
+    craters = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    cd = ImageDraw.Draw(craters)
+    for _ in range(9):
+        a, rr = rng.uniform(0, 2 * math.pi), rng.uniform(0, 0.7) * mr
+        cx, cy, cr = mx + math.cos(a) * rr, my + math.sin(a) * rr, mr * rng.uniform(0.06, 0.2)
+        cd.ellipse((cx - cr, cy - cr, cx + cr, cy + cr), fill=(150, 160, 205, 90))
+    img.alpha_composite(craters.filter(ImageFilter.GaussianBlur(6)))
+    # the dawn: a thin warm line spreading along the horizon
+    img.alpha_composite(radial(w, h, w * 0.5, hor, w * 0.55, ER["dawn"], 3.0, 90))
+    # Night City: a far hazy layer, a near dark layer, one megatower
+    far = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    skyline(far, hor, rng, (60, 18, 70), [ER["pink"], ER["violet"]], 0.05, 40, 260, 40, 130)
+    img.alpha_composite(far.filter(ImageFilter.GaussianBlur(2)))
+    tx = w * (0.30 if not lock else 0.48)
+    d = ImageDraw.Draw(img)
+    d.polygon([(tx - 70, hor), (tx - 40, h * 0.20), (tx, h * 0.12), (tx + 40, h * 0.20), (tx + 70, hor)], fill=(14, 8, 24, 255))
+    img.alpha_composite(glow_layer(img.size, lambda dr: dr.line((tx, h * 0.12, tx, hor), fill=ER["pink"] + (200,), width=3), 8))
+    skyline(img, int(h * 0.82), rng, (10, 6, 18), [ER["cyan"], ER["yellow"], ER["pink"], ER["fg"]], 0.09, 60, 170, 50, 180)
+    # traffic: cyan and yellow streaks above the streets
+    def traffic(dr):
+        for k in range(7):
+            y0 = h * rng.uniform(0.40, 0.62)   # above the rooftop, never across the two
+            x0 = rng.uniform(-200, w * 0.6)
+            dr.line((x0, y0, x0 + rng.uniform(300, 900), y0 - rng.uniform(5, 40)),
+                    fill=rng.choice((ER["cyan"], ER["yellow"], ER["pink"])) + (rng.randint(90, 200),), width=rng.randint(2, 4))
+    img.alpha_composite(glow_layer(img.size, traffic, 10))
+    # the rooftop in front and two small figures on its edge, looking at the moon
+    d = ImageDraw.Draw(img)
+    ry = int(h * 0.80)   # high enough that the two stand against the dawn, not against the dark towers
+    d.polygon([(w * 0.40, h), (w * 0.47, ry), (w, ry - 12), (w, h)], fill=(4, 3, 8, 255))
+    d.line((w * 0.47, ry, w, ry - 12), fill=ER["cyan"] + (170,), width=2)
+    s = h / 1440
+    for fx, fh, hair in ((w * 0.60, 190 * s, ER["cyan"]), (w * 0.60 + 64 * s, 170 * s, None)):
+        top = ry - 2 - fh
+        d.ellipse((fx - 16 * s, top, fx + 16 * s, top + 34 * s), fill=(4, 3, 8, 255))
+        d.polygon([(fx - 24 * s, top + 38 * s), (fx + 24 * s, top + 38 * s), (fx + 16 * s, ry - 2), (fx - 16 * s, ry - 2)],
+                  fill=(4, 3, 8, 255))
+        if hair:   # a little cyan rim of moonlight on one of them
+            d.arc((fx - 16 * s, top, fx + 16 * s, top + 34 * s), 250, 40, fill=hair + (230,), width=max(2, int(3 * s)))
+    if lock:
+        text_glow(img, (mx, my + mr + 70 * s), "月へ", font(CJK, int(70 * s)), ER["yellow"] + (170,), 12, "mm")
+        return finish(quiet_left(img), nrng)
+    # Trigger-style flat yellow slab with halftone dots and the title
+    sl = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    sd = ImageDraw.Draw(sl)
+    sd.polygon([(0, h * 0.06), (w * 0.34, h * 0.06), (w * 0.31, h * 0.17), (0, h * 0.17)], fill=ER["yellow"] + (255,))
+    for yy in range(int(h * 0.185), int(h * 0.30), int(16 * s)):
+        for xx in range(int(w * 0.02), int(w * 0.22), int(16 * s)):
+            r = 5 * s * (1 - (yy - h * 0.185) / (h * 0.115))
+            if r > 0.6:
+                sd.ellipse((xx - r, yy - r, xx + r, yy + r), fill=ER["yellow"] + (200,))
+    img.alpha_composite(sl)
+    d = ImageDraw.Draw(img)
+    d.text((w * 0.03, h * 0.115), "ナイトシティ", font=font(CJK, int(110 * s)), fill=(10, 6, 18, 255), anchor="lm")
+    text_glow(img, (w * 0.03, h * 0.215 + 120 * s), "EDGERUNNERS  //  NIGHT CITY", font(MONO, int(34 * s)), ER["cyan"] + (235,), 6, "ls")
+    text_glow(img, (w / 2, h - 50 * s), "SOMEONE IN THIS CITY STILL DREAMS OF THE MOON.", font(MONO, int(26 * s)),
+              ER["yellow_b"] + (230,), 6)
+    return finish(img, nrng)
+
+
 # ------------------------------------------------------------------------------------------------------------- the sets
 THEMES = {
     "snowcrash": (snowcrash, "snowcrash_street.jpg", (0.31, 0.104)),
@@ -423,6 +501,7 @@ THEMES = {
     "bladerunner": (bladerunner, "bladerunner_vegas.jpg", (0.43, 0.104)),
     "evangelion": (evangelion, "evangelion_tokyo3.jpg", (0.59, 0.07)),
     "marathon": (marathon, "marathon_tauceti.jpg", (0.30, 0.104)),
+    "edgerunners": (edgerunners, "edgerunners_moon.jpg", (0.47, 0.104)),
 }
 BITS = ((0, 0, 0x01), (0, 1, 0x02), (0, 2, 0x04), (1, 0, 0x08), (1, 1, 0x10), (1, 2, 0x20), (0, 3, 0x40), (1, 3, 0x80))
 

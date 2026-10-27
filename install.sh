@@ -190,6 +190,8 @@ s=$(asset evangelion_tokyo3.jpg) && place "$s" "$WALLS/evangelion_tokyo3.jpg" # 
 s=$(asset evangelion_lock_bg.jpg) && place "$s" "$HOME/.config/hypr/hyprlock/evangelion_lock_bg.jpg"
 s=$(asset marathon_tauceti.jpg) && place "$s" "$WALLS/marathon_tauceti.jpg" # the marathon theme (tools/make-theme-art.py)
 s=$(asset marathon_lock_bg.jpg) && place "$s" "$HOME/.config/hypr/hyprlock/marathon_lock_bg.jpg"
+s=$(asset edgerunners_moon.jpg) && place "$s" "$WALLS/edgerunners_moon.jpg" # the edgerunners theme (tools/make-theme-art.py)
+s=$(asset edgerunners_lock_bg.jpg) && place "$s" "$HOME/.config/hypr/hyprlock/edgerunners_lock_bg.jpg"
 # the GitS art set (terminal banner, fastfetch, Neovim dashboard, radio dancer): ~/.local/share/gits/art/gits, "current" = the theme's set
 ART=$HOME/.local/share/gits/art
 s=$(asset art.png) && place "$s" "$ART/gits/banner.png"
@@ -208,6 +210,8 @@ s=$(asset evangelion_banner.png) && place "$s" "$ART/evangelion/banner.png"   # 
 s=$(asset evangelion.txt) && place "$s" "$ART/evangelion/banner.txt" && place "$s" "$ART/evangelion/dashboard.txt"
 s=$(asset marathon_banner.png) && place "$s" "$ART/marathon/banner.png"   # the marathon set: flat print graphics, a lime slab
 s=$(asset marathon.txt) && place "$s" "$ART/marathon/banner.txt" && place "$s" "$ART/marathon/dashboard.txt"
+s=$(asset edgerunners_banner.png) && place "$s" "$ART/edgerunners/banner.png"   # the edgerunners set: two on a rooftop under the moon
+s=$(asset edgerunners.txt) && place "$s" "$ART/edgerunners/banner.txt" && place "$s" "$ART/edgerunners/dashboard.txt"
 s=$(asset fuchikoma-dance.gif) && place "$s" "$ART/gits/dancer.gif"                # the radio popup's dancer in the GitS theme
 s=$(asset lain-dance.gif) && place "$s" "$HOME/.config/gits-widgets/lain.gif"   # the radio popup and the lock screen dance from it
 

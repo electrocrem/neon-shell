@@ -50,7 +50,7 @@ MANIFEST = [
     (".config/qt6ct/qt6ct.conf", None), (".config/qt6ct/colors/GitS.conf", None),
     (".config/satty/config.toml", None),
     (".config/gits/themes", ["gits.theme", "lain.theme", "neuromancer.theme", "snowcrash.theme", "akira.theme",
-                             "bladerunner.theme", "evangelion.theme", "marathon.theme", "files"]),
+                             "bladerunner.theme", "evangelion.theme", "marathon.theme", "edgerunners.theme", "files"]),
     (".local/share/gits/art/gits", ["banner.conf", "title"]),
     (".local/share/gits/art/lain", ["banner.conf", "title"]),
     (".local/share/gits/art/neuromancer", ["banner.conf", "title"]),
@@ -59,6 +59,7 @@ MANIFEST = [
     (".local/share/gits/art/bladerunner", ["banner.conf", "title"]),
     (".local/share/gits/art/evangelion", ["banner.conf", "title"]),
     (".local/share/gits/art/marathon", ["banner.conf", "title"]),
+    (".local/share/gits/art/edgerunners", ["banner.conf", "title"]),
     (".config/zsh/gits", ["banner.zsh", "colors.zsh", "tmux.zsh", "fastfetch.jsonc", "fastfetch-image.jsonc"]),
     (".config/starship/starship.toml", None),
     (".config/nvim/colors/gits.lua", None),
@@ -109,6 +110,8 @@ ASSETS = [
     (".config/hypr/hyprlock/evangelion_lock_bg.jpg", "evangelion_lock_bg.jpg"),
     (".local/share/gits/wallpapers/marathon_tauceti.jpg", "marathon_tauceti.jpg"),      # the marathon theme (tools/make-theme-art.py)
     (".config/hypr/hyprlock/marathon_lock_bg.jpg", "marathon_lock_bg.jpg"),
+    (".local/share/gits/wallpapers/edgerunners_moon.jpg", "edgerunners_moon.jpg"),      # the edgerunners theme (tools/make-theme-art.py)
+    (".config/hypr/hyprlock/edgerunners_lock_bg.jpg", "edgerunners_lock_bg.jpg"),
     (".config/gits-widgets/lain.gif", "lain-dance.gif"),                                          # the dancing Lain of the radio popup and the lock screen (lain-dance, MIT)
     (".local/share/gits/art/gits/dancer.gif", "fuchikoma-dance.gif"),                           # the radio dancer of the GitS art set
     (".config/zsh/gits/art.png", "art.png"),                                                     # terminal banner (kitty graphics)

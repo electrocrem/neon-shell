@@ -27,12 +27,12 @@ installer then generates original placeholder wallpapers and a generic ASCII ban
 lock-screen mascot by `home/.local/share/gits-lock/ice.py` (MIT, like the rest of the code). The quoted first line of *Neuromancer* is
 William Gibson's.
 
-## Snow Crash, Akira, Blade Runner 2049, Evangelion and Marathon theme art
+## Snow Crash, Akira, Blade Runner 2049, Evangelion, Marathon and Edgerunners theme art
 
 The wallpapers, lock-screen backgrounds, banners and braille banners of these themes (`assets/snowcrash_*`, `akira_*`, `bladerunner_*`,
-`evangelion_*`, `marathon_*` and `snowcrash.txt` ... `marathon.txt`) are drawn from code by `tools/make-theme-art.py` (MIT, like the rest of the
+`evangelion_*`, `marathon_*`, `edgerunners_*` and `snowcrash.txt` ... `edgerunners.txt`) are drawn from code by `tools/make-theme-art.py` (MIT, like the rest of the
 code): only colours and general motifs are taken from the works. The quoted lines belong to their authors (Neal Stephenson; Katsuhiro Otomo;
-the Blade Runner films; Hideaki Anno / Gainax, after Robert Browning); *Marathon* is a trademark of Bungie, used here only as a name.
+the Blade Runner films; Hideaki Anno / Gainax, after Robert Browning); *Marathon* is a trademark of Bungie and *Cyberpunk: Edgerunners* of CD PROJEKT, both used here only as names.
 
 ## Lain theme art
 

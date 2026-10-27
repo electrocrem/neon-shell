@@ -1,0 +1,39 @@
+# Cyberpunk: Edgerunners: Night City in magenta haze, the hard yellow of its signs, cyan of the net, a pale moon above it all.
+# The hopeful one: the moon is still there and a thin line of dawn runs along the horizon.
+# Same roles as gits.theme (read that file for what each one paints).
+name = Edgerunners
+description = Night City yellow, netrunner cyan, a moon someone still dreams of. Dawn is coming.
+wallpaper = edgerunners_moon.jpg
+art = edgerunners
+
+# the lock screen: two on a rooftop under the moon, a turning ICE as the city's net
+lock_bg = edgerunners_lock_bg.jpg
+mascot = ice
+swap = 公安9課  //  SECTION 9 -> ナイトシティ  //  NIGHT CITY
+swap = echo "LINK: $( -> echo "EDGE: $(
+
+bg            = #0B0912
+bg_deep       = #06050B
+surface       = #1C1828
+surface_deep  = #14111D
+fg            = #F0EEF8
+fg_gtk        = #F3F1FA
+fg_bright     = #FFFFFF
+muted         = #BEB7D4
+dim           = #3E3954
+dim_text      = #76708E
+
+accent        = #FCEE0A
+accent_bright = #FFF56B
+accent_2      = #00F0FF
+
+red           = #FF2A6D
+red_light     = #FF7099
+green         = #3BF0A0
+green_light   = #8CF7C8
+yellow        = #FFB627
+yellow_light  = #FFD47A
+blue          = #2E7BFF
+blue_light    = #7DA9FF
+violet        = #B05CFF
+violet_light  = #D3A6FF
