@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# hyprlock label (the Edgerunners theme swaps it in for the user line): Capri whispers one line after another, typed out letter by letter
+# with a blinking cursor, held, then erased. No forks.
+lines=(
+    "the moon is still up there."
+    "you made it through another night. that counts."
+    "rest. the city can wait for you."
+    "somebody out there would miss you."
+    "dawn comes even to night city."
+    "stay. there is a sunrise you haven't seen yet."
+    "one more day. then one more."
+    "you don't have to run the edge alone."
+)
+slot=$(( ${EPOCHREALTIME/./} / 110000 ))
+period=130   # slots a line lives: typing, holding, erasing (~14 s)
+line=${lines[$(( slot / period % ${#lines[@]} ))]}
+p=$(( slot % period )) n=${#line}
+if (( p < n )); then
+    shown=$p
+elif (( p < period - 25 )); then
+    shown=$n
+else
+    shown=$(( n - (p - period + 25) * n / 25 ))
+fi
+cursor=" "
+(( slot / 4 % 2 )) && cursor="▌"
+echo "CAPRI › ${line:0:shown}${cursor}"

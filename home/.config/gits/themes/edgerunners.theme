@@ -11,6 +11,7 @@ lock_bg = edgerunners_lock_bg.jpg
 mascot = capri
 swap = 公安9課  //  SECTION 9 -> ナイトシティ  //  NIGHT CITY
 swap = echo "LINK: $( -> echo "EDGE: $(
+swap = text = USER://$USER   ·   SESSION LOCKED -> text = cmd[update:110] gits-lock-whisper
 
 bg            = #0B0912
 bg_deep       = #06050B
