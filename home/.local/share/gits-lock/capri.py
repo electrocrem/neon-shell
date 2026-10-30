@@ -2,7 +2,7 @@
 """Frames of the Capri mascot for the lock screen (gits-lock-mascot, the Edgerunners theme): braille art, capri-0.txt ... next to this file.
 
 Capri, the rogue engram of Cyberpunk: Edgerunners 2, as flat graphics: a mane of jagged crimson shards full of glitter, black blades
-rimmed violet, a spiky hood, a square lime face plate with two ringed blue eyes and a white wedge of fangs under it. The shards sway,
+rimmed violet, a spiky hood, a big lime face plate under a white zigzag fringe, two big round ringed blue eyes and a small grin of fangs. The shards sway,
 the glitter twinkles, the eyes look about and blink, the grin opens and closes. Drawn from code after the general motifs only,
 nothing is traced from the show.
 In braille every colour is a dot density: the glitter, the fangs and the eye glints solid, the face dense, the irises medium, the
@@ -39,7 +39,7 @@ _R = random.Random(2)
 SHARDS = [(_R.uniform(-170, 10) if k % 3 else _R.uniform(10, 170), _R.uniform(0.28, 0.55), _R.uniform(0.035, 0.08), _R.random(), k % 4 == 0)
           for k in range(30)]
 GLITTER = [(_R.random(), _R.random(), _R.random()) for _ in range(1800)]
-EYES = ((0.425, 0.465, 0.0), (0.575, 0.465, 0.4))   # centre and a phase for where each eye looks and when it blinks
+EYES = ((0.41, 0.465, 0.078, 0.0), (0.59, 0.455, 0.064, 0.4))   # centre, radius, a phase for where it looks and when it blinks
 
 
 def draw(t, W, H, pal, zoom=1.0):
@@ -93,36 +93,38 @@ def draw(t, W, H, pal, zoom=1.0):
         if dark:
             poly(shard(ang, L * 0.9, w * 0.8, ph, 1.0), "ink", "edge")
 
-    # the head: a spiky black hood, a green chevron over it, the white crack on the forehead
-    hood = [(0.5, 0.24), (0.55, 0.3), (0.62, 0.22), (0.63, 0.33), (0.72, 0.36), (0.67, 0.42), (0.7, 0.6), (0.6, 0.58), (0.5, 0.68),
-            (0.4, 0.58), (0.3, 0.6), (0.33, 0.42), (0.27, 0.35), (0.37, 0.33), (0.38, 0.22), (0.45, 0.3)]
+    # the head: a spiky black hood with a green chevron over it
+    hood = [(0.5, 0.22), (0.55, 0.28), (0.62, 0.2), (0.64, 0.31), (0.74, 0.34), (0.69, 0.42), (0.72, 0.62), (0.6, 0.6), (0.5, 0.68),
+            (0.4, 0.6), (0.28, 0.62), (0.31, 0.42), (0.26, 0.34), (0.36, 0.31), (0.38, 0.2), (0.45, 0.28)]
     poly(hood, "ink", "edge")
-    poly([(0.58, 0.17), (0.65, 0.22), (0.62, 0.3), (0.56, 0.28), (0.6, 0.23)], "face", "ink")
-    crack = [(0.44, 0.36), (0.47, 0.335), (0.49, 0.355), (0.52, 0.33), (0.54, 0.35), (0.565, 0.335)]
-    d.line([P(x, y) for x, y in crack], fill=pal["white"] + (255,), width=max(1, int(s * 0.006)))
-    # the face plate: a lime block with a notch at the bottom
-    poly([(0.355, 0.39), (0.645, 0.385), (0.65, 0.545), (0.56, 0.55), (0.5, 0.52), (0.44, 0.55), (0.35, 0.545)], "face", "ink")
-    # the eyes: a dark well with a cut corner, a white ring, the blue iris and a white glint looking around; a blink now and then
-    for ex, ey, ph in EYES:
-        r = 0.058
-        poly([(ex - r, ey - r * 0.8), (ex + r * 0.6, ey - r), (ex + r, ey - r * 0.4), (ex + r * 0.9, ey + r), (ex - r * 0.8, ey + r * 0.9)],
-             "ink")
-        lx, ly = 0.012 * math.sin(a + ph * 9), 0.008 * math.sin(a * 2 + ph * 5)
-        for rr, col in ((0.045, "white"), (0.037, "ink"), (0.03, "iris")):
-            x, y = P(ex + lx * 0.5, ey + ly * 0.5)
-            d.ellipse((x - rr * s, y - rr * s, x + rr * s, y + rr * s), fill=pal[col] + (255,))
-        x, y = P(ex + lx, ey + ly)
-        d.ellipse((x - 0.011 * s, y - 0.011 * s, x + 0.011 * s, y + 0.011 * s), fill=pal["white"] + (255,))
+    poly([(0.58, 0.15), (0.65, 0.2), (0.62, 0.28), (0.56, 0.26), (0.6, 0.21)], "face", "ink")
+    # the face plate: a big lime block, slanting a little, with a notch at the bottom
+    poly([(0.32, 0.35), (0.68, 0.345), (0.69, 0.58), (0.57, 0.59), (0.5, 0.555), (0.43, 0.59), (0.31, 0.58)], "face", "ink")
+    # the fringe: a white zigzag band over the eyes, its teeth bobbing a little
+    bob = 0.006 * math.sin(a * 2)
+    fringe = [(0.33, 0.33), (0.67, 0.325), (0.66, 0.36)]
+    for k in range(6, -1, -1):   # the zigzag along the bottom edge, right to left
+        x = 0.34 + 0.32 * k / 6
+        fringe.append((x - 0.02, 0.36 + (0.035 + bob if k % 2 else 0.0)))
+    poly(fringe, "white", "ink")
+    # the eyes: big and round, a black rim, a white ring, the blue iris and a white pupil looking around, a glint; a blink now and then
+    for ex, ey, r, ph in EYES:
+        lx, ly = 0.1 * r * math.sin(a + ph * 9), 0.07 * r * math.sin(a * 2 + ph * 5)
+        for rr, col, k in ((1.0, "ink", 0), (0.78, "white", 0.3), (0.64, "ink", 0.5), (0.54, "iris", 0.6), (0.22, "white", 1.0)):
+            x, y = P(ex + lx * k, ey + ly * k)
+            d.ellipse((x - rr * r * s, y - rr * r * s, x + rr * r * s, y + rr * r * s), fill=pal[col] + (255,))
+        x, y = P(ex + lx - r * 0.3, ey + ly - r * 0.3)   # the glint
+        d.ellipse((x - 0.1 * r * s, y - 0.1 * r * s, x + 0.1 * r * s, y + 0.1 * r * s), fill=pal["white"] + (255,))
         b = (t + ph) % 1
         shut = max(0.0, 1 - abs(b - 0.5) / 0.05)   # the lid comes down and goes back up
         if shut:
             poly([(ex - r, ey - r), (ex + r, ey - r), (ex + r, ey - r + 2 * r * shut), (ex - r, ey - r + 2 * r * shut)], "face")
             d.line([P(ex - r, ey - r + 2 * r * shut), P(ex + r, ey - r + 2 * r * shut)], fill=pal["ink"] + (255,), width=lw)
-    # the grin: a white jagged wedge of fangs under the plate, opening and closing
-    o = 0.12 + 0.06 * (0.5 + 0.5 * math.sin(a * 2))
-    poly([(0.42, 0.565), (0.6, 0.56), (0.555, 0.565 + o * 0.45), (0.53, 0.565 + o * 0.55), (0.515, 0.565 + o)], "white", "ink")
-    for fx in (0.45, 0.49, 0.53, 0.57):   # the gaps between the fangs
-        poly([(fx, 0.562), (fx + 0.012, 0.562), (fx + 0.006, 0.562 + o * 0.35)], "ink")
+    # the grin: a small white wedge of fangs under the plate, opening and closing
+    o = 0.05 + 0.03 * (0.5 + 0.5 * math.sin(a * 2))
+    poly([(0.45, 0.6), (0.57, 0.597), (0.54, 0.6 + o * 0.5), (0.515, 0.6 + o)], "white", "ink")
+    for fx in (0.48, 0.52):   # the gaps between the fangs
+        poly([(fx, 0.598), (fx + 0.01, 0.598), (fx + 0.005, 0.598 + o * 0.4)], "ink")
     return im
 
 
